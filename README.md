@@ -1,151 +1,141 @@
-<div align="center">
-  <h1>CEDA Streamlit App Template</h1>
+# MBO Prognose
 
-  <p>🚀 A simple template to quickly build interactive data science applications!</p>
+A prediction model for MBO student enrollments, using historical enrollment data to forecast future student numbers per program and learning path.
 
-  <p>
-    <a href="#"><img src="https://custom-icon-badges.demolab.com/badge/Windows-0078D6?logo=windows11&logoColor=white" alt="Windows"></a>
-    <a href="#"><img src="https://img.shields.io/badge/macOS-000000?logo=apple&logoColor=F0F0F0" alt="macOS"></a>
-    <a href="#"><img src="https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black" alt="Linux"></a>
-    <img src="https://badgen.net/github/last-commit/cedanl/streamlit-app-template" alt="GitHub Last Commit">
-    <img src="https://img.shields.io/github/license/cedanl/streamlit-app-template" alt="GitHub License">
-  </p>
-</div>
+## Project Structure
 
-## 📋 Overview
-> [!NOTE]
-> **Quick Start**: [![Use Template](https://img.shields.io/badge/Use-Template-green)](https://github.com/cedanl/streamlit-app-template/generate) → Clone Locally → [![uv Badge](https://img.shields.io/badge/uv-DE5FE9?logo=uv&logoColor=fff&style=flat)](https://docs.astral.sh/uv/getting-started/installation/) → Run `uv run streamlit run src/main.py`
+```
+mboprognose/
+├── configuration/           # Configuration files
+│   ├── configuration.yaml  # Main configuration (filters, settings)
+│   └── paths.json         # File path configurations
+├── input/                  # Input data directory
+│   └── aanmeldingen_oktober_2024.csv  # Enrollment data
+├── output/                 # Output directory for predictions
+├── scripts/
+│   └── models/            # Model implementations
+│       └── individual.py  # Individual prediction model
+└── utils/                 # Utility functions
+    ├── helper.py         # Helper functions
+    └── load_data.py      # Data loading functions
+```
 
-The CEDA Streamlit App Template helps researchers and data scientists quickly build interactive web applications for data analysis and visualization. Perfect for creating:
+## Requirements
 
-- Data analysis dashboards
-- Interactive visualizations
-- Machine learning demos
-- Research presentation tools
+- Python 3.10+
+- UV package manager
 
-## ✨ Features
-- [x] **Ready-to-Use Structure**: Pre-organized folders and files for instant development
-- [x] **User-Friendly Interface**: Streamlit-based UI requiring no web development knowledge
-- [x] **Easy Page Creation**: Add new pages with just a few lines of code
-- [x] **Professional Layout**: Clean, organized project structure
-- [x] **`uv` Powered Setup**: One-click installation that handles Python and dependencies automatically
+## Installation
 
-<br>
-
-## 🔧 First Time Setup
-> [!WARNING]
-> Do not skip these steps if this is your first time using this template. It will not work without them.
-
-> [!TIP]
-> Save the repository in a Projects/CEDA folder on your main drive for quick access.
-
-### 1. Get the Template
-
-#### Option A: Use Template (For CEDA Members)
-1. Click the green **"Use this template"** button on GitHub
-2. Name your new app repository
-3. Choose Public or Private
-4. Click **"Create repository"**
-
-#### Option B: Download ZIP
-[![Download Template](https://img.shields.io/badge/Download-Template-green)](https://github.com/cedanl/streamlit-app-template/archive/refs/heads/main.zip)
-
-After downloading, extract the ZIP file and navigate into the folder.
-
-### 2. Install [![uv Badge](https://img.shields.io/badge/uv-DE5FE9?logo=uv&logoColor=fff&style=flat)](https://docs.astral.sh/uv/)
-
-#### MacOS & Linux (Terminal)
+1. Clone the repository:
 ```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
+git clone https://github.com/radboudir/mboprognose.git
+cd mboprognose
 ```
 
-#### Windows (Powershell or [Windows Terminal](https://apps.microsoft.com/detail/9n0dx20hk701?hl=nl-NL&gl=NL))
-```powershell
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-```
-Close and reopen your terminal after installation.
-
-#### Verify installation
+2. Install dependencies using UV:
 ```bash
-uv self update
+uv venv
+uv pip install -r requirements.txt
 ```
 
-<br>
+## Configuration
 
-## 🚀 Running Your App
+### Main Configuration (`configuration/configuration.yaml`)
 
-Ready to see your app come to life? It's just one command away! ✨
+```yaml
+filters:
+  # Institution filter
+  instellingscode:
+    enabled: true
+    values: ['01AA']  # Institution codes to include
 
-### First, get to the right spot:
+  # Learning path filter (e.g., "BOL", "BBL")
+  leertraject:
+    enabled: true
+    values: []  # Empty list includes all
 
-Open a terminal in your app folder - it's super easy!
-- **Windows**: `Shift + Right-click` in folder → `Open in Windows Terminal` 
-- **Mac**: `Right-click` folder → `New Terminal at Folder`
-- **VS Code**: Just click `Terminal` → `New Terminal`
+  # Study program filter
+  opleiding:
+    enabled: true
+    values: []  # Empty list includes all
+```
 
-Or navigate there:
+### Data Requirements
+
+The input CSV file should contain the following columns:
+- `createdat`: Application timestamp
+- `status`: Application status (ENROLLED, REJECTED, etc.)
+- `schooljaar`: Academic year
+- `opleidingcode`: Program code
+- `Opleidingsnaam`: Program name
+- `leertrajectmbo`: Learning path (BOL/BBL)
+- `instellingserkenningscode`: Institution code
+
+## Usage
+
+1. Place your enrollment data CSV in the `input/` directory.
+
+2. Update the configuration in `configuration/configuration.yaml` if needed.
+
+3. Run the prediction model:
 ```bash
-cd path/to/your-app-folder
+# Run with current year and week
+uv run main.py
+
+# Run with specific year and week
+uv run main.py -y 2024 -w 42
+
+# Run with specific year, current week
+uv run main.py -y 2024
+
+# Run with current year, specific week
+uv run main.py -w 42
 ```
 
-### Then, launch with a single command:
+Command line options:
+- `-y` or `--year`: Specify the target year (default: current year)
+- `-w` or `--week`: Specify the target week number (default: current week)
 
-```bash
-uv run streamlit run src/main.py
-```
+Note: The script will abort if no actual data is found for the specified year and week.
 
-That's it! Your app will automatically open in your browser. If you've completed the setup correctly, this is the **only command** you'll need going forward. 🎉
+The script will:
+- Load and preprocess the enrollment data
+- Verify data availability for target year/week
+- Generate predictions per program and learning path
+- Save results to `output/predictions_[timestamp].xlsx`
 
-<br>
+## Output Format
 
-## 🎯 Building Your First App
+The prediction output includes:
+- Program name and code
+- Learning path (BOL/BBL)
+- Predicted enrollments (SARIMA_individual)
+- Actual enrollments (Aantal_studenten)
+- Error metrics (Absolute_Error, Percentage_Error)
 
-### Adding New Pages
-1. Create a new `.py` file in the `src/frontend/` folder
-2. Add your page to the navigation in `src/main.py`
-3. Your page appears automatically in the sidebar!
+## Model Details
 
-### Example Page Structure
-```python
-import streamlit as st
+The prediction model uses:
+1. A pre-applicant probability model for initial filtering
+2. A trend-based prediction approach for sparse data
+3. Optional institution and program filtering
 
-def show():
-    st.title("My New Page")
-    st.write("Hello, world!")
-    
-    # Add your content here
-    user_input = st.text_input("Enter something:")
-    if user_input:
-        st.success(f"You entered: {user_input}")
-```
+For sparse data (< 2 years of history), the model uses a simple trend-based approach with:
+- Current enrollment as baseline
+- Growth assumptions based on available data
+- Reasonable bounds on prediction changes
 
-### What You Can Build
-- **Data Upload & Analysis**: Let users upload CSV files and see instant insights
-- **Interactive Charts**: Build dynamic visualizations that respond to user input  
-- **Machine Learning Demos**: Create interfaces for ML models and predictions
-- **Research Dashboards**: Display your research findings in an interactive format
+## Limitations
 
-<br>
+- Requires at least one year of historical data for meaningful predictions
+- More accurate with multiple years of historical data
+- Institution-specific filtering must be configured correctly
 
-## 🛠️ Built With
-[![uv Badge](https://img.shields.io/badge/uv-DE5FE9?logo=uv&logoColor=fff&style=flat)](https://docs.astral.sh/uv/)
-[![Streamlit Badge](https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=fff&style=flat)](https://streamlit.io/)
-[![Python Badge](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff&style=flat)](https://www.python.org/)
+## Contributing
 
-## 🤲 Support
-If you find this template helpful, please consider:
-- ⭐ Starring the repo
-- 🐛 Reporting bugs
-- 💡 Suggesting improvements
-- 💻 Contributing code
-
-Need help? Feel free to [open an issue](https://github.com/cedanl/streamlit-app-template/issues) or contact us at a.sewnandan@hhs.nl
-
-## 🙏 Contributors
-Thank you to all the [people](https://github.com/cedanl/streamlit-app-template/graphs/contributors) who have contributed to this template.
-
-[![](https://github.com/asewnandan.png?size=50)](https://github.com/asewnandan)
-[![](https://github.com/tin900.png?size=50)](https://github.com/tin900)
-
-## 🚦 License
-![GitHub License](https://img.shields.io/github/license/cedanl/streamlit-app-template)
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request

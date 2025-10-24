@@ -1,0 +1,27 @@
+# Filter configurations for student prognosis
+filters:
+  # Academic year filter (e.g., "2024-2025", "2025-2026")
+  collegejaar:
+    enabled: true
+    values: []  # Leave empty to be filled with actual values from data
+    exclude: ['0']  # Exclude entries with year '0'
+
+  # Study program filter
+  opleiding:
+    enabled: true
+    values: []  # Leave empty to be filled with actual values from data
+
+  # Learning path filter (e.g., "BOL", "BBL")
+  leertraject:
+    enabled: true
+    values: []  # Leave empty to be filled with actual values from data
+
+  # Institution code filter
+  instellingscode:
+    enabled: true
+    values: ['25PV']  # Leave empty to be filled with actual values from data
+
+# Default filter behavior
+defaults:
+  include_all_when_empty: true  # If no values are selected, include all options
+  case_sensitive: false  # Case-insensitive matching for string values
