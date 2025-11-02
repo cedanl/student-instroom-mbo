@@ -3,6 +3,7 @@ import pandas as pd
 import pickle
 import os
 import tempfile
+from io import BytesIO
 
 # ---------------------------------------
 # PAGE CONFIGURATION
@@ -161,6 +162,56 @@ def get_uploaded_file():
     
     return None, None, None
 
+def detect_encoding(file):
+    """Detect the encoding of a file by trying common encodings
+    
+    Args:
+        file: File-like object with bytes content
+        
+    Returns:
+        str: Detected encoding or 'utf-8' as fallback
+    """
+    # Common encodings to try (most common first)
+    encodings = ['utf-8', 'iso-8859-1', 'windows-1252', 'cp1252', 'latin-1']
+    
+    # Reset to beginning
+    file.seek(0)
+    
+    # Try to read a sample (first 10000 bytes or entire file if smaller)
+    sample = file.read(10000)
+    file.seek(0)
+    
+    # Try each encoding
+    for encoding in encodings:
+        try:
+            sample.decode(encoding)
+            return encoding
+        except (UnicodeDecodeError, UnicodeError):
+            continue
+    
+    # If all fail, return utf-8 as fallback (will error but at least we tried)
+    return 'utf-8'
+
+def read_excel_file():
+    """Read the uploaded Excel (XLSX) file as a DataFrame
+    
+    Returns:
+        pandas.DataFrame or None if no Excel file uploaded
+    """
+    file, file_name, file_size = get_uploaded_file()
+    if file and file_name and (file_name.endswith('.xlsx') or file_name.endswith('.xls')):
+        file.seek(0)  # Reset file pointer
+        
+        try:
+            # Use BytesIO for pandas read_excel
+            file_buffer = BytesIO(file.read())
+            df = pd.read_excel(file_buffer, engine='openpyxl')
+            return df
+        except Exception as e:
+            st.error(f"Fout bij het lezen van Excel bestand: {str(e)}")
+            return None
+    return None
+
 def read_csv_file():
     """Read the uploaded CSV file as a DataFrame
     
@@ -171,8 +222,19 @@ def read_csv_file():
     if file and file_name and file_name.endswith('.csv'):
         file.seek(0)  # Reset file pointer
         
+        # Detect encoding
+        encoding = detect_encoding(file)
+        file.seek(0)  # Reset after detection
+        
         # Read first line to detect separator
-        first_line = file.readline().decode('utf-8')
+        try:
+            first_line = file.readline().decode(encoding)
+        except (UnicodeDecodeError, UnicodeError):
+            # Fallback to latin-1 if detected encoding still fails
+            file.seek(0)
+            first_line = file.readline().decode('iso-8859-1')
+            encoding = 'iso-8859-1'
+        
         file.seek(0)  # Reset file pointer
         
         # Detect separator based on first line
@@ -185,14 +247,20 @@ def read_csv_file():
         
         try:
             if separator:
-                return pd.read_csv(file, sep=separator)
+                return pd.read_csv(file, sep=separator, encoding=encoding)
             else:
                 # Try auto-detection
-                return pd.read_csv(file)
+                return pd.read_csv(file, encoding=encoding)
         except Exception as e:
             # If all else fails, try reading as text and splitting manually
             file.seek(0)
-            content = file.read().decode('utf-8')
+            try:
+                content = file.read().decode(encoding)
+            except (UnicodeDecodeError, UnicodeError):
+                # Final fallback to latin-1
+                file.seek(0)
+                content = file.read().decode('iso-8859-1')
+            
             lines = content.strip().split('\n')
             if lines:
                 headers = lines[0].split(';') if ';' in lines[0] else lines[0].split(',')
@@ -204,13 +272,34 @@ def read_csv_file():
                 return pd.DataFrame(data, columns=headers)
     return None
 
-def get_column_overview():
-    """Get column overview for uploaded CSV file
+def read_data_file():
+    """Read uploaded file (CSV or XLSX) as a DataFrame
+    
+    Automatically detects file type and uses appropriate reader.
     
     Returns:
-        pandas.DataFrame with column information or None if no CSV file
+        pandas.DataFrame or None if no supported file uploaded
     """
-    df = read_csv_file()
+    file, file_name, file_size = get_uploaded_file()
+    if not file or not file_name:
+        return None
+    
+    # Try Excel first
+    if file_name.endswith('.xlsx') or file_name.endswith('.xls'):
+        return read_excel_file()
+    # Try CSV
+    elif file_name.endswith('.csv'):
+        return read_csv_file()
+    else:
+        return None
+
+def get_column_overview():
+    """Get column overview for uploaded file (CSV or XLSX)
+    
+    Returns:
+        pandas.DataFrame with column information or None if no file
+    """
+    df = read_data_file()
     if df is not None:
         # Create overview DataFrame
         overview_data = []
@@ -270,7 +359,7 @@ if file:
     
     # Option to upload new file
     st.subheader("🔄 Nieuw bestand uploaden")
-    uploaded_file = st.file_uploader("Kies een nieuw bestand", key="new_file_uploader")
+    uploaded_file = st.file_uploader("Kies een nieuw bestand", type=['csv', 'xlsx', 'xls'], key="new_file_uploader")
     
     if uploaded_file:
         save_file_location(uploaded_file)
@@ -286,7 +375,7 @@ if file:
         
 else:
     # No file uploaded yet
-    uploaded_file = st.file_uploader("Kies een bestand")
+    uploaded_file = st.file_uploader("Kies een bestand", type=['csv', 'xlsx', 'xls'])
     
     if uploaded_file:
         save_file_location(uploaded_file)
@@ -306,8 +395,8 @@ file, file_name, file_size = get_uploaded_file()
 if file:
    # st.success(f"✅ Analyse {file_name}")
     
-    # Read CSV directly
-    df = read_csv_file()
+    # Read file directly (CSV or XLSX)
+    df = read_data_file()
     if df is not None:
         # File information
         st.subheader("📋 Inhoud geselecteerde bestand")
