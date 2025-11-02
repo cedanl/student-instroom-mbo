@@ -1,0 +1,702 @@
+[
+  {
+    "id": 1,
+    "date": "2025-10-18",
+    "amount": 641.16,
+    "category": "Electronics",
+    "customer": "Customer_27"
+  },
+  {
+    "id": 2,
+    "date": "2025-10-16",
+    "amount": 982.03,
+    "category": "Electronics",
+    "customer": "Customer_39"
+  },
+  {
+    "id": 3,
+    "date": "2025-06-03",
+    "amount": 99.71,
+    "category": "Electronics",
+    "customer": "Customer_32"
+  },
+  {
+    "id": 4,
+    "date": "2025-09-24",
+    "amount": 52.78,
+    "category": "Clothing",
+    "customer": "Customer_46"
+  },
+  {
+    "id": 5,
+    "date": "2025-07-30",
+    "amount": 727.05,
+    "category": "Clothing",
+    "customer": "Customer_38"
+  },
+  {
+    "id": 6,
+    "date": "2025-06-23",
+    "amount": 466.32,
+    "category": "Books",
+    "customer": "Customer_32"
+  },
+  {
+    "id": 7,
+    "date": "2025-06-27",
+    "amount": 587.56,
+    "category": "Home",
+    "customer": "Customer_28"
+  },
+  {
+    "id": 8,
+    "date": "2025-07-06",
+    "amount": 824.2,
+    "category": "Clothing",
+    "customer": "Customer_26"
+  },
+  {
+    "id": 9,
+    "date": "2025-07-21",
+    "amount": 998.51,
+    "category": "Home",
+    "customer": "Customer_6"
+  },
+  {
+    "id": 10,
+    "date": "2025-07-12",
+    "amount": 674.56,
+    "category": "Clothing",
+    "customer": "Customer_9"
+  },
+  {
+    "id": 11,
+    "date": "2025-05-17",
+    "amount": 803.47,
+    "category": "Sports",
+    "customer": "Customer_12"
+  },
+  {
+    "id": 12,
+    "date": "2025-08-31",
+    "amount": 93.36,
+    "category": "Books",
+    "customer": "Customer_8"
+  },
+  {
+    "id": 13,
+    "date": "2025-08-29",
+    "amount": 864.56,
+    "category": "Sports",
+    "customer": "Customer_3"
+  },
+  {
+    "id": 14,
+    "date": "2025-07-05",
+    "amount": 188.9,
+    "category": "Books",
+    "customer": "Customer_39"
+  },
+  {
+    "id": 15,
+    "date": "2025-08-29",
+    "amount": 799.77,
+    "category": "Sports",
+    "customer": "Customer_39"
+  },
+  {
+    "id": 16,
+    "date": "2025-05-20",
+    "amount": 925.85,
+    "category": "Home",
+    "customer": "Customer_2"
+  },
+  {
+    "id": 17,
+    "date": "2025-10-19",
+    "amount": 880.63,
+    "category": "Sports",
+    "customer": "Customer_10"
+  },
+  {
+    "id": 18,
+    "date": "2025-10-02",
+    "amount": 396.1,
+    "category": "Clothing",
+    "customer": "Customer_42"
+  },
+  {
+    "id": 19,
+    "date": "2025-08-23",
+    "amount": 219.98,
+    "category": "Clothing",
+    "customer": "Customer_44"
+  },
+  {
+    "id": 20,
+    "date": "2025-06-15",
+    "amount": 685.58,
+    "category": "Electronics",
+    "customer": "Customer_2"
+  },
+  {
+    "id": 21,
+    "date": "2025-08-19",
+    "amount": 876.8,
+    "category": "Sports",
+    "customer": "Customer_29"
+  },
+  {
+    "id": 22,
+    "date": "2025-08-09",
+    "amount": 429.39,
+    "category": "Electronics",
+    "customer": "Customer_25"
+  },
+  {
+    "id": 23,
+    "date": "2025-09-25",
+    "amount": 388.96,
+    "category": "Clothing",
+    "customer": "Customer_50"
+  },
+  {
+    "id": 24,
+    "date": "2025-09-30",
+    "amount": 723.06,
+    "category": "Electronics",
+    "customer": "Customer_13"
+  },
+  {
+    "id": 25,
+    "date": "2025-09-20",
+    "amount": 973.99,
+    "category": "Sports",
+    "customer": "Customer_8"
+  },
+  {
+    "id": 26,
+    "date": "2025-08-03",
+    "amount": 200.94,
+    "category": "Books",
+    "customer": "Customer_13"
+  },
+  {
+    "id": 27,
+    "date": "2025-06-17",
+    "amount": 107.64,
+    "category": "Sports",
+    "customer": "Customer_37"
+  },
+  {
+    "id": 28,
+    "date": "2025-05-20",
+    "amount": 916.45,
+    "category": "Electronics",
+    "customer": "Customer_32"
+  },
+  {
+    "id": 29,
+    "date": "2025-08-27",
+    "amount": 628.16,
+    "category": "Books",
+    "customer": "Customer_5"
+  },
+  {
+    "id": 30,
+    "date": "2025-06-23",
+    "amount": 803.71,
+    "category": "Home",
+    "customer": "Customer_14"
+  },
+  {
+    "id": 31,
+    "date": "2025-07-27",
+    "amount": 541.58,
+    "category": "Clothing",
+    "customer": "Customer_25"
+  },
+  {
+    "id": 32,
+    "date": "2025-09-20",
+    "amount": 947.6,
+    "category": "Sports",
+    "customer": "Customer_44"
+  },
+  {
+    "id": 33,
+    "date": "2025-05-12",
+    "amount": 869.17,
+    "category": "Clothing",
+    "customer": "Customer_6"
+  },
+  {
+    "id": 34,
+    "date": "2025-08-19",
+    "amount": 733.04,
+    "category": "Electronics",
+    "customer": "Customer_8"
+  },
+  {
+    "id": 35,
+    "date": "2025-05-29",
+    "amount": 619.65,
+    "category": "Home",
+    "customer": "Customer_16"
+  },
+  {
+    "id": 36,
+    "date": "2025-08-03",
+    "amount": 458.62,
+    "category": "Electronics",
+    "customer": "Customer_30"
+  },
+  {
+    "id": 37,
+    "date": "2025-08-10",
+    "amount": 844.57,
+    "category": "Books",
+    "customer": "Customer_25"
+  },
+  {
+    "id": 38,
+    "date": "2025-07-05",
+    "amount": 461.9,
+    "category": "Home",
+    "customer": "Customer_43"
+  },
+  {
+    "id": 39,
+    "date": "2025-08-29",
+    "amount": 852.05,
+    "category": "Electronics",
+    "customer": "Customer_22"
+  },
+  {
+    "id": 40,
+    "date": "2025-06-30",
+    "amount": 527.51,
+    "category": "Sports",
+    "customer": "Customer_34"
+  },
+  {
+    "id": 41,
+    "date": "2025-07-13",
+    "amount": 523.35,
+    "category": "Electronics",
+    "customer": "Customer_44"
+  },
+  {
+    "id": 42,
+    "date": "2025-09-05",
+    "amount": 247.55,
+    "category": "Clothing",
+    "customer": "Customer_7"
+  },
+  {
+    "id": 43,
+    "date": "2025-08-04",
+    "amount": 760.99,
+    "category": "Electronics",
+    "customer": "Customer_10"
+  },
+  {
+    "id": 44,
+    "date": "2025-06-18",
+    "amount": 950.99,
+    "category": "Sports",
+    "customer": "Customer_27"
+  },
+  {
+    "id": 45,
+    "date": "2025-10-25",
+    "amount": 401.76,
+    "category": "Home",
+    "customer": "Customer_45"
+  },
+  {
+    "id": 46,
+    "date": "2025-06-23",
+    "amount": 418.25,
+    "category": "Sports",
+    "customer": "Customer_36"
+  },
+  {
+    "id": 47,
+    "date": "2025-07-03",
+    "amount": 933.94,
+    "category": "Clothing",
+    "customer": "Customer_14"
+  },
+  {
+    "id": 48,
+    "date": "2025-08-05",
+    "amount": 171.61,
+    "category": "Home",
+    "customer": "Customer_36"
+  },
+  {
+    "id": 49,
+    "date": "2025-10-01",
+    "amount": 347.94,
+    "category": "Books",
+    "customer": "Customer_44"
+  },
+  {
+    "id": 50,
+    "date": "2025-09-12",
+    "amount": 593.87,
+    "category": "Electronics",
+    "customer": "Customer_12"
+  },
+  {
+    "id": 51,
+    "date": "2025-08-01",
+    "amount": 506.4,
+    "category": "Sports",
+    "customer": "Customer_49"
+  },
+  {
+    "id": 52,
+    "date": "2025-07-09",
+    "amount": 384.57,
+    "category": "Clothing",
+    "customer": "Customer_22"
+  },
+  {
+    "id": 53,
+    "date": "2025-05-13",
+    "amount": 531.83,
+    "category": "Clothing",
+    "customer": "Customer_17"
+  },
+  {
+    "id": 54,
+    "date": "2025-09-16",
+    "amount": 269.34,
+    "category": "Books",
+    "customer": "Customer_1"
+  },
+  {
+    "id": 55,
+    "date": "2025-09-11",
+    "amount": 498.11,
+    "category": "Clothing",
+    "customer": "Customer_49"
+  },
+  {
+    "id": 56,
+    "date": "2025-10-08",
+    "amount": 697.64,
+    "category": "Electronics",
+    "customer": "Customer_31"
+  },
+  {
+    "id": 57,
+    "date": "2025-07-23",
+    "amount": 563.79,
+    "category": "Home",
+    "customer": "Customer_33"
+  },
+  {
+    "id": 58,
+    "date": "2025-09-13",
+    "amount": 563.21,
+    "category": "Clothing",
+    "customer": "Customer_43"
+  },
+  {
+    "id": 59,
+    "date": "2025-10-12",
+    "amount": 303.54,
+    "category": "Electronics",
+    "customer": "Customer_28"
+  },
+  {
+    "id": 60,
+    "date": "2025-05-12",
+    "amount": 106.95,
+    "category": "Clothing",
+    "customer": "Customer_29"
+  },
+  {
+    "id": 61,
+    "date": "2025-09-17",
+    "amount": 62.02,
+    "category": "Home",
+    "customer": "Customer_39"
+  },
+  {
+    "id": 62,
+    "date": "2025-08-02",
+    "amount": 444.98,
+    "category": "Home",
+    "customer": "Customer_50"
+  },
+  {
+    "id": 63,
+    "date": "2025-08-12",
+    "amount": 870.02,
+    "category": "Electronics",
+    "customer": "Customer_46"
+  },
+  {
+    "id": 64,
+    "date": "2025-05-23",
+    "amount": 637.08,
+    "category": "Sports",
+    "customer": "Customer_23"
+  },
+  {
+    "id": 65,
+    "date": "2025-09-03",
+    "amount": 958.15,
+    "category": "Electronics",
+    "customer": "Customer_38"
+  },
+  {
+    "id": 66,
+    "date": "2025-09-21",
+    "amount": 957.84,
+    "category": "Clothing",
+    "customer": "Customer_22"
+  },
+  {
+    "id": 67,
+    "date": "2025-09-27",
+    "amount": 492.41,
+    "category": "Clothing",
+    "customer": "Customer_11"
+  },
+  {
+    "id": 68,
+    "date": "2025-08-06",
+    "amount": 927.85,
+    "category": "Electronics",
+    "customer": "Customer_26"
+  },
+  {
+    "id": 69,
+    "date": "2025-06-24",
+    "amount": 682.39,
+    "category": "Electronics",
+    "customer": "Customer_25"
+  },
+  {
+    "id": 70,
+    "date": "2025-09-28",
+    "amount": 165.2,
+    "category": "Clothing",
+    "customer": "Customer_31"
+  },
+  {
+    "id": 71,
+    "date": "2025-09-12",
+    "amount": 183.51,
+    "category": "Home",
+    "customer": "Customer_25"
+  },
+  {
+    "id": 72,
+    "date": "2025-07-08",
+    "amount": 892.84,
+    "category": "Books",
+    "customer": "Customer_16"
+  },
+  {
+    "id": 73,
+    "date": "2025-08-29",
+    "amount": 830.96,
+    "category": "Home",
+    "customer": "Customer_9"
+  },
+  {
+    "id": 74,
+    "date": "2025-06-06",
+    "amount": 768.48,
+    "category": "Clothing",
+    "customer": "Customer_9"
+  },
+  {
+    "id": 75,
+    "date": "2025-08-08",
+    "amount": 519.33,
+    "category": "Electronics",
+    "customer": "Customer_40"
+  },
+  {
+    "id": 76,
+    "date": "2025-10-19",
+    "amount": 850.55,
+    "category": "Sports",
+    "customer": "Customer_29"
+  },
+  {
+    "id": 77,
+    "date": "2025-10-01",
+    "amount": 116.67,
+    "category": "Books",
+    "customer": "Customer_21"
+  },
+  {
+    "id": 78,
+    "date": "2025-08-05",
+    "amount": 153.75,
+    "category": "Books",
+    "customer": "Customer_16"
+  },
+  {
+    "id": 79,
+    "date": "2025-06-11",
+    "amount": 754.36,
+    "category": "Home",
+    "customer": "Customer_34"
+  },
+  {
+    "id": 80,
+    "date": "2025-08-04",
+    "amount": 756.75,
+    "category": "Electronics",
+    "customer": "Customer_22"
+  },
+  {
+    "id": 81,
+    "date": "2025-08-24",
+    "amount": 796.89,
+    "category": "Electronics",
+    "customer": "Customer_35"
+  },
+  {
+    "id": 82,
+    "date": "2025-10-15",
+    "amount": 885.04,
+    "category": "Electronics",
+    "customer": "Customer_2"
+  },
+  {
+    "id": 83,
+    "date": "2025-05-16",
+    "amount": 973.01,
+    "category": "Electronics",
+    "customer": "Customer_30"
+  },
+  {
+    "id": 84,
+    "date": "2025-10-30",
+    "amount": 232.42,
+    "category": "Electronics",
+    "customer": "Customer_33"
+  },
+  {
+    "id": 85,
+    "date": "2025-10-03",
+    "amount": 946.79,
+    "category": "Home",
+    "customer": "Customer_26"
+  },
+  {
+    "id": 86,
+    "date": "2025-10-09",
+    "amount": 467.68,
+    "category": "Electronics",
+    "customer": "Customer_15"
+  },
+  {
+    "id": 87,
+    "date": "2025-09-05",
+    "amount": 698.43,
+    "category": "Sports",
+    "customer": "Customer_40"
+  },
+  {
+    "id": 88,
+    "date": "2025-10-05",
+    "amount": 688.56,
+    "category": "Books",
+    "customer": "Customer_48"
+  },
+  {
+    "id": 89,
+    "date": "2025-10-02",
+    "amount": 348.89,
+    "category": "Clothing",
+    "customer": "Customer_4"
+  },
+  {
+    "id": 90,
+    "date": "2025-05-27",
+    "amount": 911.27,
+    "category": "Clothing",
+    "customer": "Customer_36"
+  },
+  {
+    "id": 91,
+    "date": "2025-09-16",
+    "amount": 963.07,
+    "category": "Sports",
+    "customer": "Customer_38"
+  },
+  {
+    "id": 92,
+    "date": "2025-06-17",
+    "amount": 571.51,
+    "category": "Home",
+    "customer": "Customer_24"
+  },
+  {
+    "id": 93,
+    "date": "2025-06-23",
+    "amount": 536.48,
+    "category": "Electronics",
+    "customer": "Customer_2"
+  },
+  {
+    "id": 94,
+    "date": "2025-10-22",
+    "amount": 200.97,
+    "category": "Clothing",
+    "customer": "Customer_50"
+  },
+  {
+    "id": 95,
+    "date": "2025-05-15",
+    "amount": 445.35,
+    "category": "Books",
+    "customer": "Customer_28"
+  },
+  {
+    "id": 96,
+    "date": "2025-07-01",
+    "amount": 56.97,
+    "category": "Clothing",
+    "customer": "Customer_24"
+  },
+  {
+    "id": 97,
+    "date": "2025-09-17",
+    "amount": 758.57,
+    "category": "Electronics",
+    "customer": "Customer_38"
+  },
+  {
+    "id": 98,
+    "date": "2025-10-25",
+    "amount": 422.77,
+    "category": "Sports",
+    "customer": "Customer_25"
+  },
+  {
+    "id": 99,
+    "date": "2025-10-25",
+    "amount": 995.4,
+    "category": "Home",
+    "customer": "Customer_42"
+  },
+  {
+    "id": 100,
+    "date": "2025-06-04",
+    "amount": 57.86,
+    "category": "Electronics",
+    "customer": "Customer_22"
+  }
+]
