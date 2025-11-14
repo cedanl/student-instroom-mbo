@@ -1,6 +1,6 @@
 {
     "paths": {
-        "path_individual": "C:\\Users\\AmirK\\Documents\\GitHub\\ceda\\mboprognose\\input\\applications_enriched_with_context_DEMO.csv",
-        "path_student_count": "C:\\Users\\AmirK\\Documents\\GitHub\\ceda\\mboprognose\\input\\aanmeldingen_oktober_2024.csv"
+        "path_individual": "data/input/applications_enriched_with_context_DEMO.csv",
+        "path_student_count": "data/input/aanmeldingen_oktober_2024_DEMO.csv"
     }
 }
