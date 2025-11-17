@@ -1,5 +1,17 @@
+# Install required dependencies:
+# $ uv sync
+# Or if using pip:
+# $ pip install plotly
+
 import streamlit as st
 import pandas as pd
+
+try:
+    import plotly.express as px
+    import plotly.graph_objects as go
+except ImportError:
+    st.error("❌ Plotly is niet geïnstalleerd. Installeer het met: `uv sync` of `pip install plotly`")
+    st.stop()
 
 # Import utility functions from the Files module
 import sys
@@ -271,15 +283,45 @@ if prognose_files:
                 
                 # Group by week and sum aantal
                 if len(df_filtered) > 0:
-                    weekly_data = df_filtered.groupby(week_col)[aantal_col].sum().reset_index()
-                    weekly_data = weekly_data.sort_values(week_col)
-                    weekly_data.columns = ['week', 'aantal']
+                    # Group by week_col and get both week_of_year and academic_week for labels
+                    if academic_week_col:
+                        # Group by both columns to get the mapping
+                        weekly_data = df_filtered.groupby([week_col, academic_week_col])[aantal_col].sum().reset_index()
+                        # Then aggregate by week_col (taking most common academic_week value per week)
+                        weekly_data = weekly_data.groupby(week_col).agg({
+                            aantal_col: 'sum',
+                            academic_week_col: lambda x: x.mode().iloc[0] if len(x.mode()) > 0 else x.iloc[0]
+                        }).reset_index()
+                        weekly_data = weekly_data.sort_values(week_col)
+                        # Create combined labels
+                        weekly_data['week_label'] = weekly_data.apply(
+                            lambda row: f"Week {int(row[week_col])} (Schooljaar week {int(row[academic_week_col])})" 
+                            if pd.notna(row[academic_week_col]) else f"Week {int(row[week_col])}",
+                            axis=1
+                        )
+                    else:
+                        # Only week_col available
+                        weekly_data = df_filtered.groupby(week_col)[aantal_col].sum().reset_index()
+                        weekly_data = weekly_data.sort_values(week_col)
+                        weekly_data['week_label'] = weekly_data[week_col].apply(lambda x: f"Week {int(x)}")
                     
-                    # Create bar chart
-                    st.bar_chart(
-                        weekly_data.set_index('week'),
-                        use_container_width=True
+                    weekly_data.columns = [col if col != aantal_col else 'aantal' for col in weekly_data.columns]
+                    
+                    # Create bar chart with Plotly to show both week numbers on x-axis
+                    fig = go.Figure()
+                    fig.add_trace(go.Bar(
+                        x=weekly_data['week_label'],
+                        y=weekly_data['aantal'],
+                        name='Aantal voorspeld'
+                    ))
+                    fig.update_layout(
+                        title='Voorspellingen per week',
+                        xaxis_title='Week (Weeknummer / Schooljaar weeknummer)',
+                        yaxis_title='Aantal voorspeld',
+                        xaxis=dict(tickangle=-45),
+                        height=500
                     )
+                    st.plotly_chart(fig, use_container_width=True)
                     
                     # Show summary statistics
                     col1, col2, col3 = st.columns(3)
@@ -289,10 +331,129 @@ if prognose_files:
                         st.metric("Gemiddelde per week", f"{weekly_data['aantal'].mean():.1f}")
                     with col3:
                         if len(weekly_data) > 0:
-                            max_week = weekly_data.loc[weekly_data['aantal'].idxmax(), 'week']
-                            st.metric("Week met meeste inschrijvingen", f"Week {max_week}")
+                            max_idx = weekly_data['aantal'].idxmax()
+                            max_week_label = weekly_data.loc[max_idx, 'week_label']
+                            st.metric("Week met meeste inschrijvingen", max_week_label)
                 else:
                     st.warning("⚠️ Geen data beschikbaar met de huidige filterinstellingen.")
+                
+                # Cumulative line chart: Cumulative numbers per year
+                if academic_week_col and aantal_col and (schooljaar_col or jaar_col):
+                    st.subheader("📈 Cumulatieve voorspellingen per jaar")
+                    
+                    # Use schooljaar_col if available, otherwise jaar_col
+                    jaar_column = schooljaar_col if schooljaar_col else jaar_col
+                    
+                    # Filter to academic_week between 1 and 52 and apply all existing filters
+                    df_cumulative = df_filtered[
+                        (df_filtered[academic_week_col] >= 1) & 
+                        (df_filtered[academic_week_col] <= 52)
+                    ].copy()
+                    
+                    if len(df_cumulative) > 0:
+                        # Initialize week_mapping
+                        week_mapping = {}
+                        
+                        # Group by jaar and academic_week, sum aantal, and get week_of_year mapping
+                        if week_col:
+                            # Group by all three to get the mapping between academic_week and week_of_year
+                            weekly_by_year = df_cumulative.groupby([jaar_column, academic_week_col, week_col])[aantal_col].sum().reset_index()
+                            # Aggregate to get one week_of_year per academic_week per year (take first/mode)
+                            weekly_by_year = weekly_by_year.groupby([jaar_column, academic_week_col]).agg({
+                                aantal_col: 'sum',
+                                week_col: 'first'  # Take first week_of_year for this academic_week
+                            }).reset_index()
+                            
+                            # Create mapping from academic_week to week_of_year (for labels)
+                            # Use the most common week_of_year for each academic_week across all years
+                            week_mapping = df_cumulative.groupby(academic_week_col)[week_col].agg(
+                                lambda x: x.mode().iloc[0] if len(x.mode()) > 0 else x.iloc[0]
+                            ).to_dict()
+                        else:
+                            # Only academic_week available
+                            weekly_by_year = df_cumulative.groupby([jaar_column, academic_week_col])[aantal_col].sum().reset_index()
+                        
+                        weekly_by_year = weekly_by_year.sort_values([jaar_column, academic_week_col])
+                        
+                        # Calculate cumulative sums per year
+                        cumulative_data = []
+                        for jaar in weekly_by_year[jaar_column].unique():
+                            jaar_data = weekly_by_year[weekly_by_year[jaar_column] == jaar].copy()
+                            jaar_data = jaar_data.sort_values(academic_week_col)
+                            # Calculate cumulative sum
+                            jaar_data['cumulatief'] = jaar_data[aantal_col].cumsum()
+                            cumulative_data.append(jaar_data[[academic_week_col, 'cumulatief', jaar_column]])
+                        
+                        if cumulative_data:
+                            # Combine all years
+                            df_cumulative_combined = pd.concat(cumulative_data, ignore_index=True)
+                            
+                            # Pivot to have years as columns and weeks as index
+                            df_cumulative_pivot = df_cumulative_combined.pivot_table(
+                                index=academic_week_col,
+                                columns=jaar_column,
+                                values='cumulatief',
+                                aggfunc='sum'
+                            )
+                            
+                            # Reindex to include all weeks 1-52 for complete x-axis
+                            all_weeks = pd.RangeIndex(start=1, stop=53, step=1)
+                            df_cumulative_pivot = df_cumulative_pivot.reindex(all_weeks)
+                            
+                            # Forward fill missing weeks (carry forward last cumulative value)
+                            df_cumulative_pivot = df_cumulative_pivot.ffill().fillna(0)
+                            
+                            # Create combined labels for x-axis using the week numbers from all_weeks
+                            if week_col and week_mapping:
+                                week_labels = []
+                                for week in all_weeks:
+                                    if week in week_mapping:
+                                        week_of_year = int(week_mapping[week])
+                                        week_labels.append(f"Week {week_of_year} (Schooljaar week {int(week)})")
+                                    else:
+                                        week_labels.append(f"Schooljaar week {int(week)}")
+                            else:
+                                week_labels = [f"Schooljaar week {int(week)}" for week in all_weeks]
+                            
+                            df_cumulative_pivot.index = week_labels
+                            
+                            # Create line chart with Plotly to show both week numbers on x-axis
+                            fig = go.Figure()
+                            
+                            # Add a line for each year
+                            for jaar in df_cumulative_pivot.columns:
+                                fig.add_trace(go.Scatter(
+                                    x=week_labels,
+                                    y=df_cumulative_pivot[jaar],
+                                    mode='lines+markers',
+                                    name=str(jaar),
+                                    line=dict(width=2)
+                                ))
+                            
+                            fig.update_layout(
+                                title='Cumulatieve voorspellingen per jaar',
+                                xaxis_title='Week (Weeknummer / Schooljaar weeknummer)',
+                                yaxis_title='Cumulatief aantal',
+                                xaxis=dict(tickangle=-45),
+                                height=500,
+                                hovermode='x unified'
+                            )
+                            st.plotly_chart(fig, use_container_width=True)
+                            
+                            # Show summary statistics
+                            col1, col2 = st.columns(2)
+                            with col1:
+                                # Total cumulative at end of year (week 52 - last row)
+                                if len(df_cumulative_pivot) > 0:
+                                    final_totals = df_cumulative_pivot.iloc[-1]  # Last row (week 52)
+                                    st.metric("Totaal cumulatief (week 52)", f"{final_totals.sum():,.0f}")
+                            with col2:
+                                # Number of years shown
+                                st.metric("Aantal jaren", len(df_cumulative_pivot.columns))
+                        else:
+                            st.info("ℹ️ Geen cumulatieve data beschikbaar met de huidige filterinstellingen.")
+                    else:
+                        st.info("ℹ️ Geen data gevonden voor academic_week 1-52 met de huidige filterinstellingen.")
                 
                 # New chart: Total inschrijvingen per jaar (som van academic_week 1 t/m 52)
                 if academic_week_col and aantal_col and (schooljaar_col or jaar_col):
