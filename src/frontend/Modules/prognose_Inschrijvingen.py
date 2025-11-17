@@ -287,16 +287,17 @@ if prognose_files:
                     if academic_week_col:
                         # Group by both columns to get the mapping
                         weekly_data = df_filtered.groupby([week_col, academic_week_col])[aantal_col].sum().reset_index()
-                        # Then aggregate by week_col (taking most common academic_week value per week)
-                        weekly_data = weekly_data.groupby(week_col).agg({
+                        # Then aggregate by academic_week_col (taking most common week_col value per academic_week)
+                        # This ensures we sort by schooljaar week
+                        weekly_data = weekly_data.groupby(academic_week_col).agg({
                             aantal_col: 'sum',
-                            academic_week_col: lambda x: x.mode().iloc[0] if len(x.mode()) > 0 else x.iloc[0]
+                            week_col: lambda x: x.mode().iloc[0] if len(x.mode()) > 0 else x.iloc[0]
                         }).reset_index()
-                        weekly_data = weekly_data.sort_values(week_col)
+                        weekly_data = weekly_data.sort_values(academic_week_col)  # Sort by schooljaar week
                         # Create combined labels
                         weekly_data['week_label'] = weekly_data.apply(
                             lambda row: f"Week {int(row[week_col])} (Schooljaar week {int(row[academic_week_col])})" 
-                            if pd.notna(row[academic_week_col]) else f"Week {int(row[week_col])}",
+                            if pd.notna(row[academic_week_col]) and pd.notna(row[week_col]) else f"Schooljaar week {int(row[academic_week_col])}",
                             axis=1
                         )
                     else:
