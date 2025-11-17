@@ -1,9 +1,9 @@
 import streamlit as st
 
-# Import utility functions from the frontend Files module
+# Import utility functions from the frontend Bestanden module
 try:
     # Try relative import first (works when run as part of the package)
-    from ..frontend.Files.selecteer_bestandslocatie import get_uploaded_file, read_data_file
+    from ..frontend.Bestanden.selecteer_bestandslocatie import get_uploaded_file, read_data_file
 except ImportError:
     # Fallback to absolute import (works when run directly or in different contexts)
     import sys
@@ -12,7 +12,7 @@ except ImportError:
     src_path = os.path.join(os.path.dirname(__file__), '..', '..')
     if src_path not in sys.path:
         sys.path.insert(0, src_path)
-    from frontend.Files.selecteer_bestandslocatie import get_uploaded_file, read_data_file  # type: ignore
+    from frontend.Bestanden.selecteer_bestandslocatie import get_uploaded_file, read_data_file  # type: ignore
 
 # Get file info
 file, file_name, file_size = get_uploaded_file()

@@ -20,7 +20,7 @@ import importlib.util
 
 # Get the path to selecteer_bestandslocatie.py
 current_dir = os.path.dirname(os.path.abspath(__file__))
-file_module_path = os.path.join(current_dir, '..', 'Files', 'selecteer_bestandslocatie.py')
+file_module_path = os.path.join(current_dir, '..', 'Bestanden', 'selecteer_bestandslocatie.py')
 file_module_path = os.path.abspath(file_module_path)
 
 # Load the module directly from file

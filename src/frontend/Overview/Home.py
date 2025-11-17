@@ -6,98 +6,51 @@ icon = ":material/home:"
 
 st.markdown(
     """
-    # Welcome to the CEDA Streamlit App Template!
+    # Welkom in de CEDA instroomprognose MBO app!
+
+⚠️ *Zie repository op GitHub: (https://github.com/cedanl/student-instroom-mbo)*
+
+
+## 📋 Inhoudsopgave
+
+- [Achtergrond en Motivatie](#-achtergrond-en-motivatie)
+- [Quick Start](#-quick-start)
+- [Dankwoord](#-dankwoord)
+- [Bijdragen en Verbetersuggesties?!](#-bijdragen-en-verbetersuggesties?!)
+
     
-    This template provides a structured foundation for building interactive data science 
-    and machine learning applications for CEDA members.
-    
-    **👈 Explore the modules from the sidebar** to see example implementations
-    and discover what's possible with this template!
-    
-    ## 🏗️ How to Use This Template
-    
-    ### Adding New Pages
-    - Create new Python files in the `frontend/` directory
-    - Add your page configuration to `src/main.py` in the page configuration section
-    - Your new page will be accessible from the sidebar
-    - **Use `st.session_state` to maintain data across page interactions**
-    
-    ### Backend Functions
-    - Create reusable functions in the `backend/` directory
-    - Import and call these functions from your frontend pages
-    - Keep your business logic separated from your UI components
-    - **Optimize performance with `@st.cache_data` for data loading functions**
-    - **Use `@st.cache_resource` for database connections and ML models**
-    
-    ## 🚀 Get Started
-    
-    1. **Check out the Examples** - Browse the modules section to see working implementations
-    2. **Create Your First Page** - Add a new `.py` file to the frontend directory
-    3. **Build Backend Functions** - Create supporting functions in the backend directory
-    4. **Configure Navigation** - Update the page configuration in `main.py`
-    5. **Implement State Management** - Use `st.session_state` for user data persistence
-    
-    ## 📚 Resources
-    
-    - [Streamlit Documentation](https://docs.streamlit.io) - Official Streamlit guides
-    - [Streamlit API Reference](https://docs.streamlit.io/develop/api-reference) - Complete Component & API documentation
-    - [Caching and State Management](https://docs.streamlit.io/develop/api-reference/caching-and-state) - Essential for performance
-    - [Streamlit Community](https://discuss.streamlit.io) - Get help and share ideas
-    
-    ## 💡 Template Features
-    
-    - **Modular Architecture** - Clean separation between frontend and backend
-    - **Easy Page Management** - Simple configuration-based page routing
-    - **Reusable Components** - Shared backend functions across pages
-    - **Professional Structure** - Industry-standard project organization
-    - **Performance Optimized** - Built-in caching strategies for data and resources
-    - **State Management** - Persistent user interactions across sessions
-    
-    ## 🔧 Key Streamlit Features to Leverage
-    
-    ### Caching for Performance
-    ```python
-    @st.cache_data
-    def load_dataset(file_path):
-        # Cache expensive data loading operations
-        return pd.read_csv(file_path)
-    
-    @st.cache_resource
-    def initialize_model():
-        # Cache resource-heavy objects like ML models
-        return joblib.load('model.pkl')
-    ```
-    
-    ### Session State for Interactivity
-    ```python
-    # Initialize session state
-    if 'user_data' not in st.session_state:
-        st.session_state.user_data = {}
-    
-    # Store user inputs persistently
-    st.session_state.user_data['name'] = st.text_input("Name")
-    ```
-    
-    ### Dynamic Page Updates
-    ```python
-    # Trigger page rerun when data changes
-    if st.button("Update Results"):
-        st.rerun()
-    
-    # Stop execution conditionally
-    if not user_authenticated:
-        st.stop()
-    ```
-    
-    ## 📊 Best Practices for CEDA Apps
-    
-    - **Cache data loading functions** to avoid repeated file reads
-    - **Use session state** to maintain user selections across interactions  
-    - **Implement error handling** with `st.error()` and `st.exception()`
-    - **Show progress** for long operations with `st.progress()` and `st.status()`
-    - **Organize layouts** with `st.columns()`, `st.tabs()`, and `st.container()`
-    - **Handle user input validation** before processing
-    
-    Ready to build something amazing? Start exploring the examples in the sidebar and 
-    leverage Streamlit's powerful caching and state management features!
+    ## 💡 Achtergrond en Motivatie
+
+    - Basis: 
+        - **CAMBO data (https://github.com/cedanl/instroomprognose-mbo)** en 
+        - **Studentprognose model van de Radboud Universiteit (https://github.com/cedanl/studentprognose)**
+    - Twee modules:
+        - **beschrijving van aanmeldingen**
+        - **prognose van inschrijvingen**
+    - Bestanden: tabblad waar de instellingsdata klaargezet kunnen worden. Er zijn twee upload onderdelen, namelijk:
+        - **beschrijving aanmeldingen** en
+        - **prognose inschrijvingen**
+
+        
+    ## 🚀 Quick Start
+
+    1. ...
+   
+    ## 🙏 Dankwoord
+    - Dank aan Npuls voor het bieden van de mogelijkheid om dit pakket te ontwikkelen.
+    - Dank aan de CEDA-collega’s voor alle hulp, bijdragen en inspiratie.
+    - Dank aan degenen die tijd hebben vrijgemaakt om dit project te testen.
+    - In het bijzonder dank aan Amir Corneel, Ash en Tomer!
+
+
+    ## 💡 Bijdragen en Verbetersuggesties?!
+    Iedereen is welkom om bij te dragen aan dit project: samen weten we meer dan alleen!
+
+    *Hoe kun je bijdragen?*
+
+    - 🐞 Meld bugs of stel nieuwe functies voor door een issue aan te maken.
+    - 🔄 Dien pull requests in voor bugfixes of nieuwe functionaliteiten.
+    - 🚧 Verbeter de documentatie of voeg gebruiksvoorbeelden toe.
+
+
     """)
