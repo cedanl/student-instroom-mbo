@@ -12,8 +12,8 @@ from pathlib import Path
 import pandas as pd
 import yaml
 
-from utils.load_data import load_mbo_data
-from scripts.models.individual import predict_individual
+from utils.load_data import load_individual, load_latest, load_cumulative
+from scripts.models.individual import Individual
 
 # Configure logging
 logging.basicConfig(
@@ -58,37 +58,48 @@ def main():
         config = load_configuration(config_path)
         logger.info("Configuration loaded successfully")
 
+        # Add defaults for missing configuration sections
+        if "filters" not in config:
+            config["filters"] = {}
+        if "filtering" not in config:
+            config["filtering"] = {
+                "programme": None,
+                "herkomst": None,
+                "examentype": None
+            }
+        config.setdefault("individual_start_year", 2020)
+        config.setdefault("numerus_fixus", {})
+
         # Load data
-        df = load_mbo_data()
-        logger.info(f"Loaded data with {len(df)} records")
+        logger.info("Loading data...")
+        individual_data = load_individual()
+        latest_data = load_latest()
+        cumulative_data = load_cumulative()
+        distances = None  # MBO data doesn't use distances
 
-        # Check if we have actual data for the target year and week
-        if len(df) > 0:
-            target_data = df[
-                (df['jaar'] == target_year) & 
-                (df['week'] == target_week)
-            ]
-            if target_data.empty:
-                logger.error(f"No actual data found for Year {target_year}, Week {target_week}")
-                sys.exit(1)
+        logger.info(f"Loaded data with {len(individual_data)} records")
 
-        # Apply filters from configuration
-        for filter_name, filter_config in config.get('filters', {}).items():
-            if filter_config.get('enabled', False):
-                filter_values = filter_config.get('values', [])
-                if filter_values:  # Only apply if values are specified
-                    df = df[df[filter_name].isin(filter_values)]
-                    logger.info(f"Applied {filter_name} filter, {len(df)} records remaining")
+        # Initialize Individual model
+        logger.info("Initializing prediction model...")
+        individual_model = Individual(
+            data_individual=individual_data,
+            data_distances=distances,
+            data_latest=latest_data,
+            configuration=config,
+            data_cumulative=cumulative_data
+        )
 
-        # Generate predictions
-        predictions = predict_individual(df)
-        logger.info("Predictions generated successfully")
+        # Run prediction loop
+        logger.info(f"Running predictions for year {target_year}, week {target_week}...")
+        predictions = individual_model.run_full_prediction_loop(
+            predict_year=target_year,
+            predict_week=target_week,
+            write_file=True,
+            verbose=True,
+            args=None
+        )
 
-        # Save results
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        output_path = Path(f'output/predictions_{timestamp}.xlsx')
-        predictions.to_excel(output_path, index=False)
-        logger.info(f"Results saved to {output_path}")
+        logger.info(f"Predictions completed: {len(predictions)} rows generated")
 
     except Exception as e:
         logger.error(f"Error in main execution: {str(e)}", exc_info=True)

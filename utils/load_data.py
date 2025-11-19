@@ -24,10 +24,10 @@ def get_config_paths() -> Dict[str, str]:
     if not config_path.exists():
         logger.warning(f"No paths.json found at {config_path}, using defaults")
         return {
-            "path_individual": str(Path(ROOT_PATH) / "input" / "applications_enriched_with_context_DEMO.csv"),
-            "path_student_count": str(Path(ROOT_PATH) / "input" / "aanmeldingen_oktober_2024.csv")
+            "path_individual": str(Path(ROOT_PATH) / "data/input" / "applications_enriched_with_context.csv"),
+            "path_student_count": str(Path(ROOT_PATH) / "data/input" / "aanmeldingen_oktober_2024.csv")
         }
-    
+
     try:
         with open(config_path, 'r') as f:
             config = yaml.safe_load(f)
@@ -51,7 +51,7 @@ def load_individual() -> Optional[pd.DataFrame]:
     if not path:
         logger.error("No path_individual configured")
         return None
-        
+
     logger.debug(f"Loading applications data from {path}")
     try:
         df = pd.read_csv(path, low_memory=False, dtype={
@@ -80,7 +80,7 @@ def load_student_count() -> Optional[pd.DataFrame]:
     if not path:
         logger.error("No path_student_count configured")
         return None
-        
+
     logger.debug(f"Loading student count data from {path}")
     try:
         df = pd.read_csv(path)
@@ -121,91 +121,6 @@ def load_student_count() -> Optional[pd.DataFrame]:
     except Exception as e:
         logger.error(f"Error loading data: {str(e)}")
         return None
-    if df is None:
-        logger.warning(f"Could not load individual file at: {path}")
-        return None
-
-    # If this appears to be an MBO export (has `schooljaar`), map relevant columns to the
-    # field names expected by the university prediction pipeline so the rest of the code
-    # can operate with minimal changes.
-    cols = [c.lower() for c in df.columns]
-    if "schooljaar" in cols:
-        # Normalize column names to lowercase for easier access
-        df.columns = [c.lower() for c in df.columns]
-
-        # Basic mappings
-        df = df.rename(columns={
-            "schooljaar": "Collegejaar",
-            "opleidingcode": "Opleiding",
-            "leertrajectmbo": "Leertraject",
-            "instellingserkenningscode": "Instellingscode",
-            "ketenid": "Sleutel",
-            "begindatum": "Datum Verzoek Inschr",
-            "startmoment": "Datum Verzoek Inschr",
-            "status": "Inschrijfstatus",
-        })
-
-        # Ensure expected columns exist (with sensible defaults)
-        # Convert Collegejaar to numeric (keep 0 values as-is) and ensure consistent types
-        df['Collegejaar'] = pd.to_numeric(df['Collegejaar'], errors='coerce').fillna(0).astype(int)
-
-        # Map programme and institution identifiers into names used by the rest of the pipeline
-        df['Croho groepeernaam'] = df.get('Opleiding', df.get('opleidingcode', '')).astype(str)
-        df['Faculteit'] = 'MBO'
-        # Set Examentype to a compatible value so downstream code doesn't drop rows.
-        # This is a pragmatic choice: university pipeline expects values like 'Bachelor'.
-        df['Examentype'] = 'Bachelor'
-        df['Herkomst'] = 'NL'
-
-        # Date columns: use the provided timestamp for 'Datum Verzoek Inschr' and construct
-        # an 'Ingangsdatum' with 01-09-YYYY so the intake filtering in preprocess keeps rows.
-        if 'begindatum' in df.columns:
-            col = df['begindatum']
-            if isinstance(col, pd.DataFrame):
-                col = col.iloc[:, 0]
-            df['Datum Verzoek Inschr'] = pd.to_datetime(col, errors='coerce')
-            df['Ingangsdatum'] = df['Datum Verzoek Inschr'].dt.strftime('01-09-%Y').fillna('')
-        else:
-            df['Datum Verzoek Inschr'] = pd.NaT
-            df['Ingangsdatum'] = ''
-
-        # Create the minimal set of columns expected later in the individual pipeline
-        df['Datum intrekking vooraanmelding'] = pd.NA
-        df['Sleutel'] = df.get('Sleutel', df.get('ketenid', df.get('bsnhash', pd.NA)))
-        df['Aantal studenten'] = 1
-        df['Sleutel_count'] = 1
-        df['is_numerus_fixus'] = 0
-        df['Afstand'] = 0.0
-        df['Deadlineweek'] = False
-        df['Is eerstejaars croho opleiding'] = 1
-        df['Is hogerejaars'] = 0
-        df['BBC ontvangen'] = 0
-        df['Hoofdopleiding'] = 'ja'
-        df['Nationaliteit'] = df.get('nationaliteit', 'Nederlandse')
-        df['EER'] = df.get('eer', 'J')
-
-        # Make sure column names use the exact casing used by the old pipeline (some code checks exact names)
-        df.columns = [c if any(ch.isupper() for ch in c) else c.capitalize() if c.islower() else c for c in df.columns]
-
-        # Return the dataframe with mapped columns (the rest of the pipeline will further process it)
-        return df
-
-@memory.cache
-def load_latest() -> Optional[pd.DataFrame]:
-    """For MBO data, we use the same file as individual data"""
-    logger.debug("Loading latest dataset (same as individual for MBO)...")
-    return load_individual()
-
-@memory.cache
-def load_student_numbers_first_years() -> Optional[pd.DataFrame]:
-    logger.debug("Loading first-year student numbers dataset...")
-    return _load_file(_paths['input']['path_student_count_first_years'], file_type="excel")
-
-@memory.cache
-def load_oktober_file() -> Optional[pd.DataFrame]:
-    logger.debug("Loading oktober file...")
-    return _load_file(_other_paths['path_october'], file_type="excel")
-
 
 # --- Public API ---
 @memory.cache
