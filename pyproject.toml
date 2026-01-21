@@ -24,20 +24,12 @@ module-root = ""
 module-name = "scripts"
 
 [project.scripts]
-cumulative = "scripts.models.cumulative:main"
-ratio = "scripts.models.ratio:main"
-individual = "scripts.models.individual:main"
-ensemble = "scripts.models.ensemble:main"
-baseline = "scripts.models.baseline:main"
-higher_years = "scripts.models.higher_years:main"
+individual = "scripts.models.individual_mbo:main"
 main = "scripts.main:main"
-clear_output_dir = "scripts.standalone.clear_output_dir:main"
-update_total_file = "scripts.standalone.update_total_file:main"
-evaluate_results = "scripts.standalone.evaluate_results:main"
-clear_cache = "scripts.utils.load_data:main"
-postprocess = "scripts.utils.postprocess:main"
-clustering = "scripts.utils.clustering:main"
+clear_cache = "scripts.clear_cache:main"
+evaluation = "scripts.utils.evaluation:main"
 
 # Add this section to guide package discovery
 [tool.setuptools.packages.find]
-include = ["scripts*"]  
+include = ["scripts*"] 
+
