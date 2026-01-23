@@ -37,9 +37,7 @@ Om dit model wekelijks in productie te draaien zijn de volgende stappen nodig:
 ## 3. Modellen & Data Discussie
 
 ### CAMBO vs PortalPlus
-*   **Huidige situatie**: De input lijkt nu afhankelijk van verrijkte exports.
-*   **Risico**: Afhankelijkheid van handmatige exports.
-*   **Advies**: Onderzoek of er een directe koppeling mogelijk is (API/Database) met het bronsysteem of een datawarehouse. PortalPlus is vaak een betere bron voor inschrijvingen dan CAMBO, de consistentie en actualiteit moet daar gevalideerd worden.
+Er moet nog uitgezocht worden welke bron passend is, en hoe de data het beste aangeleverd kan worden. Voordeel van CAMBO is dat het voor iedereen hetzelfde is, terwijl PortalPlus verschillend kan zijn. Beide bronnen hebben hun eigen voor- en nadelen, dit moet verder onderzocht worden.
 
 ### Hybride Modellen
 Op dit moment draait voornamelijk het Bayesian model (`Individual`). 
