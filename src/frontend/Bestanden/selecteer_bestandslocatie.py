@@ -668,6 +668,13 @@ if '_imported_via_importlib' not in globals():
     # Beschrijving aanmeldingen upload
     with col1:
         st.subheader("📋 Beschrijving aanmeldingen")
+        st.markdown(
+            "Sleep bestanden hierheen of klik om te selecteren. Het gaat om het bestand "
+            "<strong><em>application_enriched_with_context_<span style='color: #FF6B6B;'>xxx</span></em></strong>"
+            "dat een resultaat is uit het volgende package: "
+            "https://github.com/cedanl/instroomprognose-mbo/tree/main",
+            unsafe_allow_html=True
+        )        
         uploaded_files_beschrijving = st.file_uploader(
             "Sleep bestanden hierheen of klik om te selecteren",
             type=['csv', 'xlsx', 'xls'],
@@ -690,8 +697,15 @@ if '_imported_via_importlib' not in globals():
     # Prognose inschrijvingen upload
     with col2:
         st.subheader("📊 Prognose inschrijvingen")
+        st.markdown(
+            "Sleep bestanden hierheen of klik om te selecteren. Het gaat om het bestand "
+            "<strong><em>inschrijvingen_summary_<span style='color: #FF6B6B;'>xxx</span></em></strong> "
+            "dat een resultaat is uit het volgende package: "
+            "https://github.com/cedanl/student-instroom-mbo/tree/amir",
+            unsafe_allow_html=True
+        )
         uploaded_files_prognose = st.file_uploader(
-            "Sleep bestanden hierheen of klik om te selecteren. Het gaat om het bestand application_enriched_with_context_xxx.csv dat een resultaat is uit het package https://github.com/cedanl/instroomprognose-mbo/tree/main",
+            "Selecteer bestanden",
             type=['csv', 'xlsx', 'xls'],
             accept_multiple_files=True,
             key="uploader_prognose",

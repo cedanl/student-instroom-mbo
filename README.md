@@ -9,6 +9,14 @@
 </div>
 
 
+🎯 Overzicht
+Dit package biedt een Streamlit app, waarbij de data die voortkomen uit twee andere packages, worden gevisualieerd.
+
+Belangrijkste functionaliteiten:
+📥 Overzicht en voorbeeld van de geselecteerde data
+📊 Beschrijving van de geselecteerde aanmelddata
+📈 Beschrijving van de instroomanalyse per week en cumulatief per jaar met verschillende filteropties
+
 
 ## 📁 Projectstructuur
 
