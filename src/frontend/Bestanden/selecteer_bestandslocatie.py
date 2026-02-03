@@ -691,7 +691,7 @@ if '_imported_via_importlib' not in globals():
     with col2:
         st.subheader("📊 Prognose inschrijvingen")
         uploaded_files_prognose = st.file_uploader(
-            "Sleep bestanden hierheen of klik om te selecteren",
+            "Sleep bestanden hierheen of klik om te selecteren. Het gaat om het bestand application_enriched_with_context_xxx.csv dat een resultaat is uit het package https://github.com/cedanl/instroomprognose-mbo/tree/main",
             type=['csv', 'xlsx', 'xls'],
             accept_multiple_files=True,
             key="uploader_prognose",
