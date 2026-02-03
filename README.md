@@ -9,31 +9,108 @@
 </div>
 
 
-🎯 Overzicht
+## 🎯 Overzicht
+
+> **Quick Start**: [![Use Template](https://img.shields.io/badge/Use-Template-green)](https://github.com/cedanl/streamlit-app-template/generate) → Clone Locally → [![uv Badge](https://img.shields.io/badge/uv-DE5FE9?logo=uv&logoColor=fff&style=flat)](https://docs.astral.sh/uv/getting-started/installation/) → Run `uv run streamlit run src/main.py`
+
+
 Dit package biedt een Streamlit app, waarbij de data die voortkomen uit twee andere packages, worden gevisualieerd.
 
-Belangrijkste functionaliteiten:
-📥 Overzicht en voorbeeld van de geselecteerde data
-📊 Beschrijving van de geselecteerde aanmelddata
+## ✨ Belangrijkste functionaliteiten:
+📥 Overzicht en voorbeeld van de geselecteerde data <br>
+📊 Beschrijving van de geselecteerde aanmelddata <br>
 📈 Beschrijving van de instroomanalyse per week en cumulatief per jaar met verschillende filteropties
+<br>
+
+
+## 📋 Inhoudsopgave
+
+- [Achtergrond en Motivatie](#-achtergrond-en-motivatie)
+- [Projectstructuur](#-projectstructuur)
+- [Vereisten](#-vereisten)
+- [Installatie voor gebruik](#-installatie-voor-gebruik)
+- [App starten](#-app-starten)
+- [Dankwoord](#-dankwoord)
+- [Bijdragen en Verbetersuggesties?!](#-bijdragen-en-verbetersuggesties?!)
+
+    
+## 💡 Achtergrond en Motivatie
+
+- Basis: 
+  - **CAMBO data (https://github.com/cedanl/instroomprognose-mbo)** en 
+  - **Studentprognose model van de Radboud Universiteit (https://github.com/cedanl/studentprognose)**
+- Twee modules:
+  - **beschrijving van aanmeldingen**
+  - **prognose van inschrijvingen**
+- Bestanden: tabblad waar de instellingsdata klaargezet kunnen worden. Er zijn twee upload onderdelen, namelijk:
+  - **beschrijving aanmeldingen** en
+  - **prognose inschrijvingen**
 
 
 ## 📁 Projectstructuur
 
 ```         
 student-instroom-mbo/
-├── configuration.yaml      # Configuratiebestand (startjaar, uitgesloten jaren)
-├── input/                  # Map voor invoergegevens
-│   ├── applications_enriched_with_context_mboa.csv  # Aanmeldingsgegevens
-│   └── inschrijvingen_summary_mboa.csv              # Inschrijvingsoverzicht
-├── output/                 # Map voor uitvoer van voorspellingen
-├── scripts/
-│   ├── models/            # Modelimplementaties
-│   │   ├── individual_mbo.py      # Individueel voorspellingsmodel (Bayesian)
-│   │   └── sarima_predictor.py    # SARIMA voorspellingslogica
-│   ├── prediction_methods/ # Voorspellingsmethoden
-│   └── utils/             # Hulpprogramma's
-├── cli.py                 # Command-line interface parser
-├── main.py                # Hoofdscript voor voorspellingen
-└── clear_cache.py         # Script om cache te wissen
+├── 
 ```
+
+
+
+## 🔧 Vereisten
+
+- Python 3.12+
+- UV package manager
+
+## 🚀 Installatie voor gebruik
+> [!WARNING] Sla deze stappen niet over, anders werkt de app niet.
+
+1. Clone de repository:
+```bash
+git clone  https://github.com/cedanl/student-instroom-mbo/tree/shirley
+```
+
+2. Installeer `uv` (indien nog niet geïnstalleerd):
+   - **Windows**: `powershell -c "irm https://astral.sh/uv/install.ps1 | iex"`
+   - **macOS/Linux**: `curl -LsSf https://astral.sh/uv/install.sh | sh`
+
+
+
+
+## 🚀 App starten
+
+### Naar de juiste locatie:
+
+Ga naar de map waarin je app staat en open hier een terminal:
+- **Windows**: `Shift + Right-click` in folder → `Open in Windows Terminal` 
+- **Mac**: `Right-click` folder → `New Terminal at Folder`
+- **VS Code**: klik `Terminal` → `New Terminal`
+
+Of navigeer naar:
+```bash
+cd path/to/your-app-folder
+```
+
+```bash
+uv run streamlit run src/main.py
+```
+
+🎉 De app opent automatisch in de browser. Als alle stappen goed doorlopen zijn, zou ddit het **enige** commando moeten zijn, die je nodig hebt. 
+
+<br>
+ 
+
+## 🙏 Dankwoord
+  - Dank aan Npuls voor het bieden van de mogelijkheid om dit pakket te ontwikkelen.
+  - Dank aan de CEDA-collega’s voor alle hulp, bijdragen en inspiratie.
+  - Dank aan degenen die tijd hebben vrijgemaakt om dit project te testen.
+  - In het bijzonder dank aan Amir Corneel, Ash en Tomer!
+
+
+## 💡 Bijdragen en Verbetersuggesties?!
+  Iedereen is welkom om bij te dragen aan dit project: samen weten we meer dan alleen!
+
+*Hoe kun je bijdragen?*
+
+  - 🐞 Meld bugs of stel nieuwe functies voor door een issue aan te maken.
+  - 🔄 Dien pull requests in voor bugfixes of nieuwe functionaliteiten.
+  - 🚧 Verbeter de documentatie of voeg gebruiksvoorbeelden toe.
