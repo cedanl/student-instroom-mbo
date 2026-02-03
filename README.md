@@ -90,6 +90,7 @@ Of navigeer naar:
 cd path/to/your-app-folder
 ```
 
+Runn het volgende commando:
 ```bash
 uv run streamlit run src/main.py
 ```
