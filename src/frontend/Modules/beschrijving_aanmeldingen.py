@@ -58,7 +58,7 @@ except Exception as e:
     st.stop()
 
 # Page title
-st.title("📊 Beschrijving Aanmeldingen")
+st.title("📈 Beschrijving Aanmeldingen")
 
 # Get files for Beschrijving aanmeldingen
 beschrijving_files = get_beschrijving_files()

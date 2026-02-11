@@ -8,20 +8,23 @@
   </p>
 </div>
 
+<br>
 
 ## 🎯 Overzicht
 
 > **Quick Start**: [![Use Template](https://img.shields.io/badge/Use-Template-green)](https://github.com/cedanl/streamlit-app-template/generate) → Clone Locally → [![uv Badge](https://img.shields.io/badge/uv-DE5FE9?logo=uv&logoColor=fff&style=flat)](https://docs.astral.sh/uv/getting-started/installation/) → Run `uv run streamlit run src/main.py`
 
+<br>
 
 Dit package biedt een Streamlit app, waarbij de data die voortkomen uit twee andere packages, worden gevisualieerd in een interactieve web applicatie.
+
+<br>
 
 ## ⚡ Belangrijkste functionaliteiten:
 📥 Overzicht en voorbeeld van de geselecteerde data <br>
 📊 Beschrijving van de geselecteerde aanmelddata <br>
 📈 Beschrijving van de instroomanalyse per week en cumulatief per jaar met verschillende filteropties
 <br>
-
 
 ## 📋 Inhoudsopgave
 
@@ -32,25 +35,30 @@ Dit package biedt een Streamlit app, waarbij de data die voortkomen uit twee and
 - [Dankwoord](#-dankwoord)
 - [Bijdragen en Verbetersuggesties?!](#-bijdragen-en-verbetersuggesties?!)
 
-    
+
+<br>
+
 ## 🎓 Achtergrond en Motivatie
 
 Elk jaar is het weer spannend hoeveel studenten zich per opleiding aanmelden. Een vroege inschatting van de instroom helpt instellingen om roosters, lokalen, personeel en budget beter te plannen.
 
-Binnen CEDA is een instroomprognose studenten voor MBO instellingen ontwikkeld. Deze geeft een goede voorpelling van de hoeveelheid studeten dat gaat instromen in het nieuwe schooljaar. Deze prognose wordt gemaakt op basis van <a href='https://mbovoorzieningen.nl/voorzieningen/voorziening-centraal-aanmelden/' target='_blank'>CAMBO</a> (voorziening Centraal Aanmelden MBO) data van voorgaande schooljaren. 
+Binnen CEDA is een instroomprognose studenten voor MBO instellingen ontwikkeld. Deze prognose laat zien hoeveel studenten naar verwachting in het nieuwe schooljaar starten. Hiervoor wordt gebruikgemaakt van <a href='https://mbovoorzieningen.nl/voorzieningen/voorziening-centraal-aanmelden/' target='_blank'>CAMBO</a> (voorziening Centraal Aanmelden MBO) data uit eerdere schooljaren. 
 
-De CAMBO data én de restultaten uit de instroomprognose worden in deze interactieve web applicatie gevisualiseerd. 
+De CAMBO-data en de uitkomsten van de prognose worden gevisualiseerd in deze interactieve web applicatie. 
 
-- De basis van de visualisaties zijn de resultaten uit de volgende CEDA packages: 
+DDe visualisaties zijn gebaseerd op de resultaten uit de volgende CEDA-packages: 
   - **CAMBO data (https://github.com/cedanl/instroomprognose-mbo)** en 
   - **Studentprognose model van de Radboud Universiteit (https://github.com/cedanl/studentprognose)**
 
-De interactieve web applicatie bestaat uit verschillende pagina's. Na het openen van de web applicatie, kom je terehct op de Home pagina. Hier wordt de werking van de applicatie verder toegelicht.
+<br>
 
+De webapplicatie bestaat uit verschillende pagina’s. Na het openen kom je op de homepagina, waar kort wordt uitgelegd hoe de applicatie werkt en hoe deze is opgebouwd.
+
+<br>
 
 Hoe je gebruik kunt maken van de web applicatie, wordt onderstaand uigelegd 👇
 
-
+<br>
 
 # Aan de slag!
 
@@ -59,8 +67,12 @@ Hoe je gebruik kunt maken van de web applicatie, wordt onderstaand uigelegd 👇
 - Python 3.12+
 - UV package manager
 
+<br>
+
 ## 🔧 Installatie voor gebruik
 ⚠️ <i>Sla deze stappen niet over, anders werkt de app niet.</i>
+
+<br>
 
 ### 1. Clone de repository:
 ```bash
@@ -71,8 +83,7 @@ git clone  https://github.com/cedanl/student-instroom-mbo/tree/shirley
    - **Windows**: `powershell -c "irm https://astral.sh/uv/install.ps1 | iex"`
    - **macOS/Linux**: `curl -LsSf https://astral.sh/uv/install.sh | sh`
 
-
-
+<br>
 
 ## 🎬 App starten
 
@@ -93,6 +104,8 @@ Run het volgende commando:
 uv run streamlit run src/main.py
 ```
 
+<br>
+
 🎉 De app opent automatisch in de browser. Als alle stappen goed doorlopen zijn, zou ddit het **enige** commando moeten zijn, die je nodig hebt. 
 
 <br>
@@ -104,6 +117,8 @@ uv run streamlit run src/main.py
   - Dank aan degenen die tijd hebben vrijgemaakt om dit project te testen.
   - In het bijzonder dank aan Amir, Corneel, Ash en Tomer!
 
+
+<br>
 
 ## 💡 Bijdragen en Verbetersuggesties?!
   Iedereen is welkom om bij te dragen aan dit project: samen weten we meer dan alleen!

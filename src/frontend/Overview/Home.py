@@ -18,36 +18,39 @@ st.markdown(
 - [Dankwoord](#-dankwoord)
 - [Bijdragen en Verbetersuggesties?!](#-bijdragen-en-verbetersuggesties?!)
 
-    
-    ## 💡 Achtergrond en Motivatie
 
-    - Basis: 
-        - **CAMBO data (https://github.com/cedanl/instroomprognose-mbo)** en 
-        - **Studentprognose model van de Radboud Universiteit (https://github.com/cedanl/studentprognose)**
-    - Twee modules:
-        - **beschrijving van aanmeldingen**
-        - **prognose van inschrijvingen**
-    - Bestanden: tabblad waar de instellingsdata klaargezet kunnen worden. Er zijn twee upload onderdelen, namelijk:
-        - **beschrijving aanmeldingen** en
-        - **prognose inschrijvingen**
+    ## 🎓 Achtergrond en Motivatie
+
+    Elk jaar is het weer spannend hoeveel studenten zich per opleiding aanmelden. 
+    Een vroege inschatting van de instroom helpt instellingen om roosters, lokalen, personeel en budget beter te plannen.
+
+    Binnen CEDA is een instroomprognose studenten voor MBO instellingen ontwikkeld. 
+    Deze prognose laat zien hoeveel studenten naar verwachting in het nieuwe schooljaar starten. Hiervoor wordt gebruikgemaakt 
+    van <a href='https://mbovoorzieningen.nl/voorzieningen/voorziening-centraal-aanmelden/' target='_blank'>CAMBO</a> (voorziening Centraal Aanmelden MBO) 
+    data uit eerdere schooljaren. 
+
+    De CAMBO-data en de uitkomsten van de prognose worden gevisualiseerd in deze app. 
 
         
-    ## 🚀 Quick Start
+    ## 🚀 Hoe werkt de app?
 
-    1. ...
+    1. Upload de CAMBO-data en de uitkomsten van de prognose.
+    2. Visualiseer de data.
+    3. Analyseer de data.
+    4. Maak een prognose.
+    5. Visualiseer de prognose.
+    6. Analyseer de prognose.
+    7. Maak een prognose.
+    8. Visualiseer de prognose.
+    9. Analyseer de prognose.
    
-    ## 🙏 Dankwoord
-    - Dank aan Npuls voor het bieden van de mogelijkheid om dit pakket te ontwikkelen.
-    - Dank aan de CEDA-collega’s voor alle hulp, bijdragen en inspiratie.
-    - Dank aan degenen die tijd hebben vrijgemaakt om dit project te testen.
-    - In het bijzonder dank aan Amir Corneel, Ash en Tomer!
-
 
     ## 💡 Bijdragen en Verbetersuggesties?!
     Iedereen is welkom om bij te dragen aan dit project: samen weten we meer dan alleen!
 
     *Hoe kun je bijdragen?*
 
+    Ga naar de [GitHub repository](https://github.com/cedanl/student-instroom-mbo/tree/shirley) en maak een issue aan.
     - 🐞 Meld bugs of stel nieuwe functies voor door een issue aan te maken.
     - 🔄 Dien pull requests in voor bugfixes of nieuwe functionaliteiten.
     - 🚧 Verbeter de documentatie of voeg gebruiksvoorbeelden toe.
