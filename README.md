@@ -1,7 +1,7 @@
 <div align="center">
   <h1>Visualisatie instroomprognose MBO</h1>
 
-  <p>🚀 Visialisatie van de geprepaeerde CAMBO data die gebruikt worden in het voorspellingsmodel voor MBO-studenteninstroom én visusalisatie van de voorspelling uit het MBO-studenteninstroom model. </p>
+  <p>🚀 Visialisatie van de geprepareerde CAMBO data die gebruikt worden in het voorspellingsmodel voor MBO-studenteninstroom én visusalisatie van de voorspelling uit het MBO-studenteninstroom model. </p>
 
   <p>
     <img src="https://badgen.net/github/last-commit/cedanl/streamlit-app-template" alt="GitHub Last Commit">
@@ -14,9 +14,9 @@
 > **Quick Start**: [![Use Template](https://img.shields.io/badge/Use-Template-green)](https://github.com/cedanl/streamlit-app-template/generate) → Clone Locally → [![uv Badge](https://img.shields.io/badge/uv-DE5FE9?logo=uv&logoColor=fff&style=flat)](https://docs.astral.sh/uv/getting-started/installation/) → Run `uv run streamlit run src/main.py`
 
 
-Dit package biedt een Streamlit app, waarbij de data die voortkomen uit twee andere packages, worden gevisualieerd.
+Dit package biedt een Streamlit app, waarbij de data die voortkomen uit twee andere packages, worden gevisualieerd in een interactieve web applicatie.
 
-## ✨ Belangrijkste functionaliteiten:
+## ⚡ Belangrijkste functionaliteiten:
 📥 Overzicht en voorbeeld van de geselecteerde data <br>
 📊 Beschrijving van de geselecteerde aanmelddata <br>
 📈 Beschrijving van de instroomanalyse per week en cumulatief per jaar met verschillende filteropties
@@ -26,7 +26,6 @@ Dit package biedt een Streamlit app, waarbij de data die voortkomen uit twee and
 ## 📋 Inhoudsopgave
 
 - [Achtergrond en Motivatie](#-achtergrond-en-motivatie)
-- [Projectstructuur](#-projectstructuur)
 - [Vereisten](#-vereisten)
 - [Installatie voor gebruik](#-installatie-voor-gebruik)
 - [App starten](#-app-starten)
@@ -34,49 +33,48 @@ Dit package biedt een Streamlit app, waarbij de data die voortkomen uit twee and
 - [Bijdragen en Verbetersuggesties?!](#-bijdragen-en-verbetersuggesties?!)
 
     
-## 💡 Achtergrond en Motivatie
+## 🎓 Achtergrond en Motivatie
 
-- Basis: 
+Elk jaar is het weer spannend hoeveel studenten zich per opleiding aanmelden. Een vroege inschatting van de instroom helpt instellingen om roosters, lokalen, personeel en budget beter te plannen.
+
+Binnen CEDA is een instroomprognose studenten voor MBO instellingen ontwikkeld. Deze geeft een goede voorpelling van de hoeveelheid studeten dat gaat instromen in het nieuwe schooljaar. Deze prognose wordt gemaakt op basis van <a href='https://mbovoorzieningen.nl/voorzieningen/voorziening-centraal-aanmelden/' target='_blank'>CAMBO</a> (voorziening Centraal Aanmelden MBO) data van voorgaande schooljaren. 
+
+De CAMBO data én de restultaten uit de instroomprognose worden in deze interactieve web applicatie gevisualiseerd. 
+
+- De basis van de visualisaties zijn de resultaten uit de volgende CEDA packages: 
   - **CAMBO data (https://github.com/cedanl/instroomprognose-mbo)** en 
   - **Studentprognose model van de Radboud Universiteit (https://github.com/cedanl/studentprognose)**
-- Twee modules:
-  - **beschrijving van aanmeldingen**
-  - **prognose van inschrijvingen**
-- Bestanden: tabblad waar de instellingsdata klaargezet kunnen worden. Er zijn twee upload onderdelen, namelijk:
-  - **beschrijving aanmeldingen** en
-  - **prognose inschrijvingen**
+
+De interactieve web applicatie bestaat uit verschillende pagina's. Na het openen van de web applicatie, kom je terehct op de Home pagina. Hier wordt de werking van de applicatie verder toegelicht.
 
 
-## 📁 Projectstructuur
-
-```         
-student-instroom-mbo/
-├── 
-```
+Hoe je gebruik kunt maken van de web applicatie, wordt onderstaand uigelegd 👇
 
 
 
-## 🔧 Vereisten
+# 🚀 Aan de slag!
+
+## 🔓 Vereisten
 
 - Python 3.12+
 - UV package manager
 
-## 🚀 Installatie voor gebruik
-> [!WARNING] Sla deze stappen niet over, anders werkt de app niet.
+## 🔧 Installatie voor gebruik
+⚠️ <i>Sla deze stappen niet over, anders werkt de app niet.</i>
 
-1. Clone de repository:
+### 1. Clone de repository:
 ```bash
 git clone  https://github.com/cedanl/student-instroom-mbo/tree/shirley
 ```
 
-2. Installeer `uv` (indien nog niet geïnstalleerd):
+### 2. Installeer `uv` (indien nog niet geïnstalleerd):
    - **Windows**: `powershell -c "irm https://astral.sh/uv/install.ps1 | iex"`
    - **macOS/Linux**: `curl -LsSf https://astral.sh/uv/install.sh | sh`
 
 
 
 
-## 🚀 App starten
+## 🎬 App starten
 
 ### Naar de juiste locatie:
 
@@ -104,7 +102,7 @@ uv run streamlit run src/main.py
   - Dank aan Npuls voor het bieden van de mogelijkheid om dit pakket te ontwikkelen.
   - Dank aan de CEDA-collega’s voor alle hulp, bijdragen en inspiratie.
   - Dank aan degenen die tijd hebben vrijgemaakt om dit project te testen.
-  - In het bijzonder dank aan Amir Corneel, Ash en Tomer!
+  - In het bijzonder dank aan Amir, Corneel, Ash en Tomer!
 
 
 ## 💡 Bijdragen en Verbetersuggesties?!
