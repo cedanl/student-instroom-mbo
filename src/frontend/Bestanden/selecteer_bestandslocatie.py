@@ -669,10 +669,12 @@ if '_imported_via_importlib' not in globals():
     with col1:
         st.subheader("📋 Beschrijving aanmeldingen")
         st.markdown(
-            "Sleep bestanden hierheen of klik om te selecteren. Het gaat om het bestand "
-            "<strong><em>application_enriched_with_context_<span style='color: #FF6B6B;'>xxx</span></em></strong>"
-            "dat een resultaat is uit het volgende package: "
-            "https://github.com/cedanl/instroomprognose-mbo/tree/main",
+            "Sleep in de onderstaande grijze box een bestand of klik op <strong><em>Browse files here</em></strong> om een bestand te selecteren. "
+            "Het gaat om het bestand dat een resultaat is uit het volgende: "
+            "https://github.com/cedanl/instroomprognose-mbo/tree/main.<br>"
+            "Een voorbeeld van een dergelijk bestand (<strong><em>application_enriched_with_context_<span style='color: #9C27B0;'>xxx</span></em></strong>) "
+            "is te vinden in de <a href='https://github.com/cedanl/student-instroom-mbo/tree/shirley' target='_blank'>repository</a> in de map "
+            "<strong><em><span style='color: #9C27B0;'>data/voorbeeld_data</span></em></strong>",
             unsafe_allow_html=True
         )        
         uploaded_files_beschrijving = st.file_uploader(
@@ -698,10 +700,12 @@ if '_imported_via_importlib' not in globals():
     with col2:
         st.subheader("📊 Prognose inschrijvingen")
         st.markdown(
-            "Sleep bestanden hierheen of klik om te selecteren. Het gaat om het bestand "
-            "<strong><em>inschrijvingen_summary_<span style='color: #FF6B6B;'>xxx</span></em></strong> "
-            "dat een resultaat is uit het volgende package: "
-            "https://github.com/cedanl/student-instroom-mbo/tree/amir",
+            "Sleep in de onderstaande grijze box een bestand of klik op <strong><em>Browse files here</em></strong> om een bestand te selecteren. "
+            "Het gaat om het bestand dat een resultaat is uit het volgende: "
+            "https://github.com/cedanl/student-instroom-mbo/tree/amir.<br>"
+            "Een voorbeeld van een dergelijk bestand (<strong><em>inschrijvingen_summary_<span style='color: #9C27B0;'>xxx</span></em></strong>) "
+            "is te vinden in de <a href='https://github.com/cedanl/student-instroom-mbo/tree/shirley' target='_blank'>repository</a> in de map "
+            "<strong><em><span style='color: #9C27B0;'>data/voorbeeld_data</span></em></strong>", 
             unsafe_allow_html=True
         )
         uploaded_files_prognose = st.file_uploader(
