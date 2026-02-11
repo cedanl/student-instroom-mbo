@@ -16,9 +16,9 @@ st.logo(LOGO_URL)
 # -----------------------------------------------------------------------------
 home_page = st.Page("frontend/Overview/Home.py", icon=":material/home:")
 selecteer_bestandslocatie = st.Page("frontend/Bestanden/Selecteer_bestandslocatie.py", icon=":material/folder:")
-beschrijving_aanmeldingen_page = st.Page("frontend/Modules/beschrijving_aanmeldingen.py", icon="📊")
+beschrijving_aanmeldingen_page = st.Page("frontend/Modules/Beschrijving_aanmeldingen.py", icon="📊")
 prognose_inschrijvingen_page = st.Page("frontend/Modules/Prognose_inschrijvingen.py", icon="📊")
-achtergrondinformatie_page = st.Page("frontend/Achtergrondinformatie/achtergrondinformatie.py", icon="📊")
+achtergrondinformatie_page = st.Page("frontend/Achtergrondinformatie/Achtergrondinformatie.py", icon="📊")
 
 # Initialize Navigation, Sections, and Pages
 pg = st.navigation ( {

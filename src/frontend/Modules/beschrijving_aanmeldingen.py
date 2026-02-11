@@ -58,7 +58,7 @@ except Exception as e:
     st.stop()
 
 # Page title
-st.title("📈 Beschrijving Aanmeldingen")
+st.title("📈 Beschrijving aanmeldingen")
 
 # Get files for Beschrijving aanmeldingen
 beschrijving_files = get_beschrijving_files()
@@ -628,5 +628,5 @@ if beschrijving_files:
             st.error("Kon bestand niet lezen")
 else:
     st.warning("⚠️ Geen bestand geüpload voor Beschrijving aanmeldingen.")
-    st.info("💡 Ga naar tabbblad 'Files' en upload een bestand onder 'Beschrijving aanmeldingen' in de 'selecteer bestandslocatie' pagina.")
+    st.info("💡 Ga naar tabbblad 'Files' en upload een bestand onder 'Beschrijving aanmeldingen' in de 'Selecteer bestandslocatie' pagina.")
 
