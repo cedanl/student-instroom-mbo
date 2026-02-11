@@ -52,7 +52,7 @@ Hoe je gebruik kunt maken van de web applicatie, wordt onderstaand uigelegd 👇
 
 
 
-# 🚀 Aan de slag!
+# Aan de slag!
 
 ## 🔓 Vereisten
 
