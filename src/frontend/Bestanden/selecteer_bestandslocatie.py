@@ -571,7 +571,9 @@ def get_beschrijving_files():
     return get_uploaded_files('beschrijving')
 
 def get_prognose_files():
-    """Get all files for 'Prognose inschrijvingen'
+#    """Get all files for 'Prognose inschrijvingen'
+  
+    """Get all files for 'Instroomprognose'
     
     Returns:
         list: List of tuples (file_object, file_name, file_size)
@@ -696,16 +698,19 @@ if '_imported_via_importlib' not in globals():
         if beschrijving_files:
             st.info(f"📁 {len(beschrijving_files)} bestand(en) geüpload voor Beschrijving aanmeldingen")
 
-    # Prognose inschrijvingen upload
+    # Instroomprognose upload
     with col2:
-        st.subheader("📊 Prognose inschrijvingen")
+        st.subheader("📊 Instroomprognose")
         st.markdown(
-            "Sleep in de onderstaande grijze box een bestand of klik op <strong><em>Browse files here</em></strong> om een bestand te selecteren. "
-            "Het gaat om het bestand dat een resultaat is uit het volgende: "
-            "https://github.com/cedanl/student-instroom-mbo/tree/amir.<br>"
-            "Een voorbeeld van een dergelijk bestand (<strong><em>inschrijvingen_summary_<span style='color: #9C27B0;'>xxx</span></em></strong>) "
-            "is te vinden in de <a href='https://github.com/cedanl/student-instroom-mbo/tree/shirley' target='_blank'>repository</a> in de map "
-            "<strong><em><span style='color: #9C27B0;'>data/voorbeeld_data</span></em></strong>", 
+           "Sleep in de onderstaande grijze box een bestand of klik op <strong><em>Browse files here</em></strong> om een of meerdere bestanden te selecteren. "
+            "Het gaat om de bestanden die een resultaat zijn uit het volgende: "
+            "<a href='https://github.com/cedanl/instroomprognose-mbo/tree/main' target='_blank'>https://github.com/cedanl/instroomprognose-mbo/tree/main</a>.<br>"
+            " en uit <a href='https://github.com/cedanl/student-instroom-mbo/tree/amir' target='_blank'>https://github.com/cedanl/student-instroom-mbo/tree/amir</a>.<br>" 
+            "Een voorbeeld van een dergelijk bestanden (<strong>Historische jaren:</strong> <em>inschrijvingen_summary_<span style='color: #9C27B0;'>xxx</span>.csv</em><br>"
+            "<strong>Prognose:</strong> <em>predictions_mbo_<span style='color: #9C27B0;'>****</span>_week<span style='color: #9C27B0;'>##</span>.xlsx</em>)"
+            " is te vinden in de <a href='https://github.com/cedanl/student-instroom-mbo/tree/shirley' target='_blank'>repository</a> in de map "
+            "<strong><em><span style='color: #9C27B0;'>data/voorbeeld_data</span></em></strong>"
+            ,
             unsafe_allow_html=True
         )
         uploaded_files_prognose = st.file_uploader(
@@ -713,19 +718,22 @@ if '_imported_via_importlib' not in globals():
             type=['csv', 'xlsx', 'xls'],
             accept_multiple_files=True,
             key="uploader_prognose",
-            help="Upload bestanden voor prognose inschrijvingen"
+         #   help="Upload bestanden voor prognose inschrijvingen"
+         help="Upload bestanden voor Instroomprognose"
         )
         
         if uploaded_files_prognose:
             save_file_location(uploaded_files_prognose, 'prognose')
             file_names = [f.name for f in uploaded_files_prognose]
-            st.success(f"✅ {len(uploaded_files_prognose)} bestand(en) toegevoegd voor Prognose inschrijvingen!")
+         #   st.success(f"✅ {len(uploaded_files_prognose)} bestand(en) toegevoegd voor Prognose inschrijvingen!")
+            st.success(f"✅ {len(uploaded_files_prognose)} bestand(en) toegevoegd voor Instroomprognose!")
             st.rerun()
         
         # Show count of uploaded files
         prognose_files = get_uploaded_files('prognose')
         if prognose_files:
-            st.info(f"📁 {len(prognose_files)} bestand(en) geüpload voor Prognose inschrijvingen")
+         #   st.info(f"📁 {len(prognose_files)} bestand(en) geüpload voor Prognose inschrijvingen")
+         st.info(f"📁 {len(prognose_files)} bestand(en) geüpload voor Instroomprognose")
 
     # Overview section
     st.header("📊 Overzicht geüploade bestanden")
@@ -901,7 +909,8 @@ if '_imported_via_importlib' not in globals():
                 rows_display = 'N/A'
             
             # Verify the values before adding to overview
-            type_label = 'Beschrijving aanmeldingen' if file_type == 'beschrijving' else 'Prognose inschrijvingen'
+         #   type_label = 'Beschrijving aanmeldingen' if file_type == 'beschrijving' else 'Prognose inschrijvingen'
+            type_label = 'Beschrijving aanmeldingen' if file_type == 'beschrijving' else 'Instroomprognose'
             overview_data.append({
                 'Type upload': type_label,
                 'Formaat': str(file_format),  # Kortere naam
@@ -941,79 +950,65 @@ if '_imported_via_importlib' not in globals():
     else:
         st.info("📤 Upload bestanden via de drag & drop secties hierboven om te beginnen")
 
-    # Detail section with tabs
+    # Detail section: eerst Type upload kiezen, dan bestand selecteren
     if all_files_overview and len(file_info_map) > 0:
         st.header("📄 Bestandsdetails")
         
-        # Show details for files with tabs
-        if len(file_info_map) == 1:
-            # Single file - show detailed view
-            file_obj, file_name, file_size, file_type = list(file_info_map.values())[0]
-            type_label = 'Beschrijving aanmeldingen' if file_type == 'beschrijving' else 'Prognose inschrijvingen'
-            st.subheader(f"📄 {file_name} ({type_label})")
-            
-            # Add delete button
-            col1, col2 = st.columns([10, 1])
-            with col2:
-                if st.button("🗑️", key=f"delete_detail_{file_type}_{file_name}", help=f"Verwijder {file_name}"):
-                    remove_file_from_session(file_name, file_type)
-                    clear_temp_file(file_name, file_type)
-                    st.success(f"✅ Bestand '{file_name}' verwijderd!")
-                    st.rerun()
-            
-            # Read file directly (CSV or XLSX)
-            df = read_data_file(file_obj, file_name)
-            if df is not None:
-                # Column overview
-                st.subheader("📊 Kolom overzicht")
-                overview_df = get_column_overview(file_obj, file_name)
-                if overview_df is not None:
-                    st.dataframe(overview_df, use_container_width=True)
-                
-                # Data preview
-                st.subheader("👀 Voorbeeld van inhoud")
-                st.dataframe(df.head(5), use_container_width=True)
-            else:
-                st.error("Kon bestand niet lezen")
+        # Groepeer bestanden per type
+        files_by_type = {'beschrijving': [], 'prognose': []}
+        type_labels = {'beschrijving': 'Beschrijving aanmeldingen', 'prognose': 'Instroomprognose'}
+        for file_obj, file_name, file_size, file_type in file_info_map.values():
+            if file_type in files_by_type:
+                files_by_type[file_type].append((file_obj, file_name, file_size))
+        
+        # Alleen types tonen die bestanden hebben
+        available_types = [(ftype, type_labels[ftype]) for ftype in ['beschrijving', 'prognose'] 
+                          if files_by_type[ftype]]
+        
+        if not available_types:
+            st.info("Geen bestanden om details van te tonen.")
         else:
-            # Multiple files - show file selector with tabs
-            # Create tab labels with type indicator
-            tab_labels = []
-            for file_name in file_info_map.keys():
-                _, _, _, ftype = file_info_map[file_name]
-                type_short = 'Beschr.' if ftype == 'beschrijving' else 'Prognose'
-                tab_labels.append(f"{file_name} ({type_short})")
+            # Stap 1: Kies Type upload
+            selected_type_label = st.selectbox(
+                "**Type upload**",
+                options=[label for _, label in available_types],
+                key="detail_type_select"
+            )
+            selected_type = next(ftype for ftype, label in available_types if label == selected_type_label)
             
-            tabs = st.tabs(tab_labels)
+            # Stap 2: Kies bestand uit filterlijst
+            files_of_type = files_by_type[selected_type]
+            file_options = [f[1] for f in files_of_type]  # file names
             
-            for idx, tab in enumerate(tabs):
-                with tab:
-                    file_name = list(file_info_map.keys())[idx]
-                    file_obj, _, file_size, file_type = file_info_map[file_name]
-                    type_label = 'Beschrijving aanmeldingen' if file_type == 'beschrijving' else 'Prognose inschrijvingen'
+            selected_file_name = st.selectbox(
+                "**Selecteer bestand**",
+                options=file_options,
+                key=f"detail_file_select_{selected_type}"
+            )
+            
+            # Toon overzicht van geselecteerd bestand
+            if selected_file_name:
+                file_obj, _, file_size = next((f for f in files_of_type if f[1] == selected_file_name))
+                type_label = type_labels[selected_type]
+                
+                col1, col2 = st.columns([10, 1])
+                with col1:
+                    st.subheader(f"📄 {selected_file_name} ({type_label})")
+                with col2:
+                    if st.button("🗑️", key=f"delete_detail_{selected_type}_{selected_file_name}", help=f"Verwijder {selected_file_name}"):
+                        remove_file_from_session(selected_file_name, selected_type)
+                        clear_temp_file(selected_file_name, selected_type)
+                        st.success(f"✅ Bestand '{selected_file_name}' verwijderd!")
+                        st.rerun()
+                
+                df = read_data_file(file_obj, selected_file_name)
+                if df is not None:
+                    st.markdown("##### 📊 Kolom overzicht")
+                    overview_df = get_column_overview(file_obj, selected_file_name)
+                    if overview_df is not None:
+                        st.dataframe(overview_df, use_container_width=True)
                     
-                    # Add delete button
-                    col1, col2 = st.columns([10, 1])
-                    with col1:
-                        st.write(f"**Categorie:** {type_label}")
-                    with col2:
-                        if st.button("🗑️", key=f"delete_tab_{file_type}_{idx}_{file_name}", help=f"Verwijder {file_name}"):
-                            remove_file_from_session(file_name, file_type)
-                            clear_temp_file(file_name, file_type)
-                            st.success(f"✅ Bestand '{file_name}' verwijderd!")
-                            st.rerun()
-                    
-                    # Read and display file details
-                    df = read_data_file(file_obj, file_name)
-                    if df is not None:
-                        # Column overview
-                        st.subheader("📊 Kolom overzicht")
-                        overview_df = get_column_overview(file_obj, file_name)
-                        if overview_df is not None:
-                            st.dataframe(overview_df, use_container_width=True)
-                        
-                        # Data preview
-                        st.subheader("👀 Voorbeeld van inhoud")
-                        st.dataframe(df.head(5), use_container_width=True)
-                    else:
-                        st.error(f"Kon bestand '{file_name}' niet lezen")
+                    st.markdown("##### 👀 Voorbeeld van inhoud")
+                    st.dataframe(df.head(5), use_container_width=True)
+                else:
+                    st.error(f"Kon bestand '{selected_file_name}' niet lezen")

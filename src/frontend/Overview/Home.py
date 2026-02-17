@@ -45,7 +45,7 @@ data uit eerdere schooljaren.
     |       |-- Selecteer_bestandslocatie       # Hierin kan de gebruiker de bestandslocatie selecteren. Toelichting over welke bestanden benodigd zijn, wordt toegelicht.
     ├── Modules/
     |       |-- Beschrijving_aanmeldingen       # Hierin wordt de beschrijving van de aanmeldingen gevisualiseerd.
-    |       |-- Prognose_inschrijvingen         # Hierin wordt de prognose van de inschrijvingen gevisualiseerd.
+    |       |-- Instroomprognose                # Hierin wordt de instroomprognose gevisualiseerd.
     ├── Achtergrondinformatie/
     |       |-- Achtergrondinformatie           # Hierin wordt de achtergrondinformatie van de app verder toegelicht.
 ```
@@ -54,7 +54,7 @@ data uit eerdere schooljaren.
 
 ### ⚡ Stappenplan
 1. Upload de CAMBO-data en de uitkomsten van de prognose op de 'Selecteer bestandslocatie' pagina. <br>
-2. Visualiseer de data op de 'Beschrijving aanmeldingen' en 'Prognose inschrijvingen' pagina. <br>
+2. Visualiseer de data op de 'Beschrijving aanmeldingen' en 'Instroomprognose' pagina. <br>
 
 <br>
 
