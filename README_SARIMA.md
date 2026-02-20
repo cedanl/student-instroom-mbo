@@ -1,49 +1,63 @@
-# SARIMA Functionality - Disabled
+# SARIMA‑functionaliteit – uitgeschakeld
 
-## Status: DISABLED (2025-11-29)
+## Status: UITGESCHAKELD (29‑11‑2025)
 
-### Reason for Disabling
-SARIMA prediction was disabled due to persistent issues with zero/NaN predictions. The user requested to comment out SARIMA functionality to focus on the working Bayesian models (Individual_ratio and Individual_mean).
+### Reden van uitschakeling
+De SARIMA‑voorspelling is uitgeschakeld vanwege aanhoudende problemen met
+nul‑/NaN‑uitslagen. De gebruiker vroeg om de SARIMA‑code uit te commentariëren
+zodat de werkende Bayesian‑modellen (`Individual_ratio` en
+`Individual_mean`) gefocust blijven.
 
-### Current Implementation
-The current `individual_mbo.py` file was restored from `individual_mbo_complete.py` backup, which does NOT include SARIMA functionality. The file only includes:
-- **Individual_ratio**: Bayesian ratio-based prediction
-- **Individual_mean**: Bayesian cluster-based prediction
+### Huidige implementatie
+Het bestand `scripts/models/individual_mbo.py` is hersteld vanuit een
+`individual_mbo_complete.py`‑backup en bevat **geen** SARIMA‑logica. De
+voorraad bestaat uitsluitend uit:
 
-### Files Modified
-- `scripts/models/individual_mbo.py` - Restored from backup without SARIMA
+* `Individual_ratio` – Bayesian‑ratio‑voorspelling
+* `Individual_mean` – Bayesian‑cluster‑voorspelling
 
-### How to Re-enable SARIMA (Future Reference)
-If you want to restore SARIMA functionality in the future:
+### Gewijzigde bestanden
+* `scripts/models/individual_mbo.py` – teruggezet zonder SARIMA
 
-1. **Backup files available**:
-   - The full implementation with SARIMA debugging is in the git history (if using version control)
-   - Check for any `individual_mbo_*.py` backup files in `scripts/models/`
+### SARIMA opnieuw inschakelen (toekomst)
+Stappen als je SARIMA later wilt herstellen:
 
-2. **Key issues to resolve before re-enabling**:
-   - Type mismatch between `Opleidingscode` (int vs float) causing data filtering issues
-   - Double-mapping of `Inschrijfstatus` converting probabilities to zeros
-   - Need to use summary data (ground truth) for scaling predictions
-   - Historical data showing as zeros despite existing in raw data
+1. Zoek in de git‑geschiedenis naar de volledige implementatie met SARIMA
+en debugcode.
+2. Controleer op eventuele `individual_mbo_*.py` backups in
+   `scripts/models/`.
+3. Los onderstaande kernproblemen op voor herinschakeling:
+   * type‑mismatch in `Opleidingscode` (int vs float) die filtering breekt
+   * dubbele mapping van `Inschrijfstatus` waardoor waarden op nul vallen
+   * gebruik van samenvattingsdata (ground truth) voor opschaling
+   * historische rijen die onverwacht als nul verschijnen
 
-3. **SARIMA implementation notes**:
-   - Should use predicted probabilities for current year
-   - Should use actual historical enrollment data (binary 0/1) for training
-   - Needs scaling factor from summary file to match true enrollment magnitude
-   - Requires at least 10 weeks of data (reduced from 52)
-   - Uses adaptive model complexity based on years of historical data available
+De SARIMA‑module moet:
 
-### Output Columns
-The current model outputs:
-- `Individual_ratio` - Bayesian ratio prediction
-- `Individual_mean` - Bayesian cluster prediction
-- `SARIMA_individual` - NOT INCLUDED (column will not exist in output)
+* voorspelde kansen gebruiken voor het huidige jaar
+* echte historische inschrijvingsdata (0/1) gebruiken voor training
+* een schaalfactor van het overzichtsbestand toepassen om naar reële
+  aantallen te komen
+* ten minste 10 weken data verwachten (niet 52)
+* modelcomplexiteit aan passen op basis van beschikbare jaren
 
-### Testing
-To verify the model works without SARIMA:
+### Uitvoerkolommen
+De huidige uitvoer bevat:
+
+* `Individual_ratio` – Bayesian‑ratiovoorspelling
+* `Individual_mean` – Bayesian‑cluster‑voorspelling
+* `SARIMA_individual` – **niet aanwezig** (kolom verschijnt alleen als
+  SARIMA is ingeschakeld)
+
+> Het uitvoerbestand (zie hoofd‑README) bevat, indien geactiveerd, een kolom
+> `SARIMA_individual` met de SARIMA/θ‑voorspelling naast de
+> gemiddelde‑ en ratio‑voorspellingen.
+
+### Testen
+Controleer dat het model zonder SARIMA draait met bijvoorbeeld:
 ```bash
 python -m scripts.models.individual_mbo -y 2024 -w 4 -wf
 ```
 
-Expected output file: `output/output_mbo_YYYYMMDD_HHMMSS.xlsx`
-Expected columns: `Individual_ratio`, `Individual_mean` (no SARIMA column)
+Het verwachtte uitvoerbestand is `output/output_mbo_YYYYMMDD_HHMMSS.xlsx` en
+bevat de kolommen `Individual_ratio` en `Individual_mean` (geen SARIMA‑kolom).

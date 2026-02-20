@@ -60,6 +60,72 @@ uv sync
 uv sync --reinstall
 ```
 
+## Gebruik
+
+1. Plaats je aanmeldingsgegevens CSV in de `input/` map.
+
+2. Werk de configuratie bij in `configuration.yaml` indien nodig.
+
+3. Draai het voorspellingsmodel:
+```bash
+# Draai voor het huidige jaar en week
+uv run main.py
+
+# Draai voor een specifiek jaar en week
+uv run main.py -y 2024 -w 42
+
+# Draai voor meerdere weken
+uv run main.py -y 2024 -w 1 2 3
+
+# Draai voor een bereik van weken
+uv run main.py -y 2024 -w 10:20
+
+# **Schrijf resultaten naar bestand**
+uv run main.py -y 2024 -w 42 -wf      # -> output/output_mbo_[timestamp].xlsx
+
+# Verbose output voor debugging
+uv run main.py -y 2024 -w 42 -v
+```
+
+**Command Line Arguments:**
+*   `-w`, `--weeks`: Een of meer weeknummers of bereiken (bijv. `5 6 7`, `10:15`, `39:38`)
+*   `-y`, `--years`: Een of meer academische jaren of bereiken (bijv. `2023 2024`, `2022:2025`)
+*   `-wf`, `--write-file`: Schrijf voorspellingen naar een Excel‑bestand
+*   `-p`, `--print`: Print programmauitvoer naar het scherm
+*   `-v`, `--verbose`: Print gedetailleerde modeluitvoer
+
+### Resultaten en verwachte kolommen
+
+Als je `-wf` opgeeft wordt er een bestand in de `output/`‑map geschreven met
+naam `output_mbo_<timestamp>.xlsx`. Elk tabblad bevat de voorspellingen per
+opleiding/leertraject; naast de sleutelkolommen (`Collegejaar`,
+`Opleidingscode`, `Leertraject`, `Weeknummer` enz.) zie je één of meer
+model‑uitvoerkolommen.
+
+De belangrijkste voorspellingskolommen zijn:
+
+* **Individual_ratio** – de hoofdvoorspelling van het Bayesian‑ratio‑model.  Het
+  neemt de cumulatieve kanswaarde tot de opgegeven week voor het doeljaar en
+  schaalt die omhoog met een historisch gewogen verhouding tussen het
+  eindjaar‑totaal en de waarde in week W.  Kort: “hoeveel groei van week W naar
+  het einde toonde deze opleiding in eerdere jaren?”
+* **Individual_mean** – een tweede Bayesian‑voorspelling die gebruikmaakt van
+  een **cluster** van vergelijkbare opleidingen.  Het zoekt in `df_wide` naar
+  andere trajecten met een vergelijkbare ontwikkeling tot de huidige week,
+  berekent hun eind‑/huidige‑verhouding en past het gemiddelde daarvan toe op
+  de huidige cumulatieve waarde van de doelopleiding.  Hierdoor ontstaat een
+  ‘neighbour‑based’ alternatief voor de ratio‑voorspelling.
+* **SARIMA_individual** – (optioneel) een tijdreeksvoorspelling gebaseerd op
+  een eenvoudig SARIMAX + Theta‑ensemble.  Wordt ingeschakeld via de
+  `predict_with_sarima` helper; zie `README_SARIMA.md` voor achtergrond en
+  status.  Deze kolom verschijnt alleen als er voldoende historische data
+  aanwezig is en de functie niet is uitgeschakeld.
+
+Peildata, geheugen en andere nul-/NaN‑waarden worden door de modellen afgehandeld
+— lege of mislukte voorspellingen blijven als `NaN` staan.  In het logboek
+worden de totalen van deze kolommen en het aantal programma‑groepen gepresenteerd;
+zonder `-p` of `-v` zie je alleen de samenvatting.
+
 ## Configuratie
 
 ### Environment Variables
@@ -112,7 +178,7 @@ uv run main.py -y 2024 -w 42 -v
 
 De resultaten worden opgeslagen in `output/output_mbo_[timestamp].xlsx`.
 
-## Model Details
+## Modeldetails
 
 Het huidige model gebruikt **Bayesian voorspellingsmethoden**:
 
@@ -140,191 +206,66 @@ In de toekomst kan een ensemble-model worden gemaakt om voorspellingen van meerd
 4.  Combineer de resultaten, bijvoorbeeld door het gemiddelde te nemen of een gewogen gemiddelde op basis van historische nauwkeurigheid.
 5.  Update `main.py` om het ensemble-script aan te roepen in plaats van alleen het individuele model.
 
----
 
-# English Documentation
+#### KeyError: 'Opleidingscode' of vergelijkbare kolomfouten
+**Probleem**: CSV-bestand wordt niet correct geïnterpreteerd.
 
-A prediction model for MBO student enrollments, using historical enrollment data to forecast future student numbers per program and learning path.
-
-## Requirements
-
-- Python 3.12+
-- UV package manager
-
-## Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/cedanl/student-instroom-mbo.git
-cd student-instroom-mbo
-```
-
-2. Install `uv` (if not already installed):
-   - **Windows**: `powershell -c "irm https://astral.sh/uv/install.ps1 | iex"`
-   - **macOS/Linux**: `curl -LsSf https://astral.sh/uv/install.sh | sh`
-
-3. Create and sync the virtual environment:
-   This command will create the virtual environment (if it doesn't exist) and install/sync all dependencies from `pyproject.toml`.
-```bash
-uv sync
-```
-
-4. Activate the virtual environment:
-   - **Windows (PowerShell)**:
-     ```powershell
-     .venv\Scripts\activate
-     ```
-   - **macOS/Linux**:
-     ```bash
-     source .venv/bin/activate
-     ```
-
-5. (Optional) If you have an older version or need to force a sync:
-```bash
-uv sync --reinstall
-```
-
-## Configuration
-
-### Environment Variables
-Create a `.env` file in the root directory to specify the locations of your data files:
-
-```env
-ROOT_PATH="C:\\Path\\To\\Your\\Project\\Root"
-```
-
-### Configuration File
-The `configuration.yaml` file contains important settings:
-*   **individual_start_year**: Starting year for individual model training (default: 2023)
-*   **covid_year**: Excluded year due to different application deadlines (default: 2020)
-
-**Note:** Filtering has been removed from the configuration since the model runs quickly enough to process all programs and learning paths in one go.
-
-## Usage
-
-1. Place your enrollment data CSV in the `input/` directory.
-
-2. Update the configuration in `configuration.yaml` if needed.
-
-3. Run the prediction model:
-```bash
-# Run with current year and week
-uv run main.py
-
-# Run with specific year and week
-uv run main.py -y 2024 -w 42
-
-# Run with multiple weeks
-uv run main.py -y 2024 -w 1 2 3
-
-# Run with a range of weeks
-uv run main.py -y 2024 -w 10:20
-
-# Write results to file
-uv run main.py -y 2024 -w 42 -wf
-
-# Verbose output for debugging
-uv run main.py -y 2024 -w 42 -v
-```
-
-**Command Line Arguments:**
-*   `-w`, `--weeks`: One or more week numbers or ranges (e.g., `5 6 7`, `10:15`, `39:38`)
-*   `-y`, `--years`: One or more academic years or ranges (e.g., `2023 2024`, `2022:2025`)
-*   `-wf`, `--write-file`: Write predictions to file
-*   `-p`, `--print`: Print program output
-*   `-v`, `--verbose`: Print detailed model output
-
-Results are saved to `output/output_mbo_[timestamp].xlsx`.
-
-## Model Details
-
-The current model uses **Bayesian prediction methods**:
-
-*   **Individual_ratio**: Bayesian ratio-based prediction
-*   **Individual_mean**: Bayesian cluster-based prediction
-
-**Note:** SARIMA functionality is currently disabled. See `README_SARIMA.md` for details on the status and how to re-enable it in the future.
-
-## Expanding Predictions
-
-### Adding a New Model
-To expand predictions with a new module:
-
-1.  Create a new script in `scripts/models/` (e.g., `new_module.py`).
-2.  Implement a class or function that returns a DataFrame with predictions.
-3.  Ensure the output matches the structure of existing results (columns for `Schooljaar`, `Opleidingscode`, etc.).
-4.  Update `main.py` to call the new model.
-
-### Ensemble Creation
-In the future, an ensemble model can be created to combine predictions from multiple modules:
-
-1.  Create a new script `scripts/models/ensemble.py`.
-2.  Import the individual models (like `scripts.models.individual_mbo`).
-3.  Run each model separately to get their predictions.
-4.  Combine the results, for example by taking the average or a weighted average based on historical accuracy.
-5.  Update `main.py` to call the ensemble script instead of just the individual model.
-
-## Troubleshooting
-
-### Common Issues
-
-#### KeyError: 'Opleidingscode' or similar column errors
-**Problem**: CSV file is not being parsed correctly.
-
-**Solution**: 
-- Check that your CSV file uses the correct delimiter (`;`, `,`, or tab)
-- The system auto-detects delimiters, but verify your file format
-- Ensure column names match exactly (case-sensitive)
+**Oplossing**:
+- Controleer of je CSV de juiste scheidingsteken gebruikt (`;`, `,` of tab)
+- Het systeem detecteert scheidingstekens automatisch, maar verifieer je
+  bestandsindeling
+- Zorg dat kolomnamen exact overeenkomen (hoofdlettergevoelig)
 
 #### ModuleNotFoundError
-**Problem**: Dependencies not installed or virtual environment not activated.
+**Probleem**: Afhankelijkheden niet geïnstalleerd of virtuele omgeving niet
+geactiveerd.
 
-**Solution**:
+**Oplossing**:
 ```bash
-# Sync dependencies
+# Synchroniseer afhankelijkheden
 uv sync
 
-# Activate virtual environment
+# Activeer de virtuele omgeving
 # Windows:
 .venv\Scripts\activate
 # macOS/Linux:
 source .venv/bin/activate
 ```
 
-#### No predictions generated
-**Problem**: Insufficient historical data or data quality issues.
+#### Geen voorspellingen gegenereerd
+**Probleem**: Onvoldoende historische data of kwaliteitsproblemen met de gegevens.
 
-**Solution**:
-- Ensure you have at least 2 years of historical data
-- Check that `individual_start_year` in `configuration.yaml` is set correctly
-- Verify your data files contain the required columns (see `input/README.md`)
-- Run with `-v` flag for detailed output: `uv run main.py -y 2024 -w 8 -v`
+**Oplossing**:
+- Zorg dat je minstens 2 jaar historische data hebt
+- Controleer of `individual_start_year` in `configuration.yaml` correct is ingesteld
+- Verifieer dat je gegevensbestanden de vereiste kolommen bevatten (zie `input/README.md`)
+- Draai met de `-v` vlag voor gedetailleerde uitvoer: `uv run main.py -y 2024 -w 8 -v`
 
-#### Cache issues
-**Problem**: Stale cached data causing incorrect predictions.
+#### Cacheproblemen
+**Probleem**: Verouderde cachegegevens zorgen voor foutieve voorspellingen.
 
-**Solution**:
+**Oplossing**:
 ```bash
-# Clear all cache directories
+# Wis alle cache‑mappen
 python clear_cache.py
 ```
 
-### Data Requirements
+### Gegevensvereisten
 
-For best results:
-- Minimum 2 years of historical enrollment data
-- Complete weekly application status updates
-- Consistent program codes across years
-- Final enrollment counts in the summary file
+Voor de beste resultaten:
+- Minimaal 2 jaar historische inschrijvingsdata
+- Volledige wekelijkse updates van aanmeldstatus
+- Consistente opleidingscodes over jaren
+- Eindtellingen van inschrijvingen in het overzichtsbestand
 
-### Getting Help
+### Hulp zoeken
 
-If you encounter issues:
-1. Check the troubleshooting section above
-2. Review `input/README.md` for data requirements
-3. Run with verbose output: `uv run main.py -y 2024 -w 8 -v`
-4. Check the GitHub issues page for similar problems
+Als je problemen tegenkomt:
+1. Controleer de eerder genoemde sectie 'Problemen oplossen'
+2. Bekijk `input/README.md` voor gegevensvereisten
+3. Draai het model met gedetailleerde uitvoer: `uv run main.py -y 2024 -w 8 -v`
+4. Kijk op de GitHub‑issuespagina voor vergelijkbare problemen
 
-## License
+## Licentie
 
-See LICENSE file for details.
+Zie het LICENSE‑bestand voor details.
